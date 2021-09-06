@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseAccess.Entities
 {
@@ -12,8 +8,11 @@ namespace DatabaseAccess.Entities
     {
         public Guid Id { get; set; }
 
-        [MaxLength(1000)]
-        public string Name { get; set; }
+        [MaxLength(50)]
+        public string EnName { get; set; }
+
+        [MaxLength(50)]
+        public string RuName { get; set; }
 
         [MaxLength(20)]
         public string Latitude { get; set; }

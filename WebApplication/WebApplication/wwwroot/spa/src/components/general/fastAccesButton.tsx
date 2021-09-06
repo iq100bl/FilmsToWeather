@@ -6,9 +6,9 @@ const FastButton = () => {
   return (
     <>
       <div className="d-grid gap-2">
-        <Link className="btn btn=primary" to={'topfilms'} >
+        <Button className="primary" href={'spa/topfilms'} >
           Получить лучшие фильмы
-        </Link>{' '}
+        </Button>{' '}
         <Button variant="secondary" size="lg">
           Large button
         </Button>

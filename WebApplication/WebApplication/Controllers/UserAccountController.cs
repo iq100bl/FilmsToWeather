@@ -71,7 +71,7 @@ namespace WebApplication.Controllers
             {
                 return View(model);
             }
-            var id = _context.Cities.Where(x => x.Name == model.City).Select(x => x.Id).FirstOrDefault();
+            var id = _context.Cities.Where(x => x.RuName == model.City).Select(x => x.Id).FirstOrDefault();
             var user = new User
             {
                 Email = model.Email,
@@ -102,10 +102,10 @@ namespace WebApplication.Controllers
         public JsonResult AutoComplete(string prefix)
         {
             var cities = (from city in this._context.Cities
-                             where city.Name.StartsWith(prefix == null ? "" : prefix)
+                             where city.RuName.StartsWith(prefix == null ? "" : prefix)
                              select new
                              {
-                                 label = city.Name,
+                                 label = city.RuName,
                                  val = city.Id
                              }).ToList();
 

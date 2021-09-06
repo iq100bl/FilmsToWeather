@@ -29,7 +29,7 @@ namespace DatabaseAccess
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
+            base.OnModelCreating(builder.UseCollation("Cyrillic_General_CI_AS"));
 
             builder.Entity<CityModel>()
                 .HasMany(x => x.Users)

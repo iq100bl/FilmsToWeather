@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Pagination, Alert, Spinner, Col, Nav } from "react-bootstrap";
+import { Pagination, Alert, Spinner, Col, Nav, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { fetchTopFilms } from "../../services/topFilmsService";
 import FilmDTO from "../../types/films";
 import Film from "../general/film";
@@ -8,26 +9,25 @@ import Film from "../general/film";
 
 const TopFilms = () => {
 
-    let active = 1;
-    let items = [];
-    for (let number = 1; number <= 13; number++) {
-        items.push(
-            <Pagination.Item key={number} active={number === active}>
-                {number}
-            </Pagination.Item>,
-        );
+    let activePage = 1;
+
+    function PageUp() {
+        activePage += 1;
     }
 
+    function PageDown() {
+        activePage -= 1;
+    }
     const [films, setFilms] = useState<FilmDTO[]>([]);
     const [error, setError] = useState("");
 
     useEffect(() => {
-        fetchTopFilms(active).then((films) => {
+        fetchTopFilms(activePage).then((films) => {
             setFilms(films);
             setError("")
         })
             .catch((e: Error) => setError(e.message));
-    }, []);
+    }, [activePage]);
 
     return (
         <>
@@ -40,8 +40,10 @@ const TopFilms = () => {
                         <Film posterUrlPreview={film.posterUrlPreview} webUrl={film.webUrl} nameRu={film.nameRu} filmId={film.filmId} description={film.description} kinopoiskRating={film.kinopoiskRating} />)}
                 </Col>
                 <Col></Col>
+
                 <Nav>
-                    <Pagination size="lg">{items}</Pagination>
+                    <Button variant="primary" size="lg" onClick={() => PageDown} disabled={activePage === 1}>Назад</Button>
+                    <Button variant="primary" size="lg" onClick={() => PageUp} disabled={activePage === 13}>Вперёд</Button>
                 </Nav>
             </div>
 
