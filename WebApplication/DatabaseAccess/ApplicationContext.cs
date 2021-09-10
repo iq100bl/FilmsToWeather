@@ -23,10 +23,6 @@ namespace DatabaseAccess
         {
         }
 
-        public ApplicationContext()
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder.UseCollation("Cyrillic_General_CI_AS"));

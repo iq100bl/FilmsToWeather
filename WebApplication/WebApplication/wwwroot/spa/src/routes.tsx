@@ -1,7 +1,8 @@
-import { Children } from "react"
-import Layout from "./components/topFilms/layout"
 import MainPage from "./components/general/mainPage";
-import TopFilms from "./components/topFilms/TopFilms"
+import Layout from "./components/Other/layout";
+import RecomendedFilm from "./components/Other/RecomendedFilm";
+import TopFilms from "./components/Other/TopFilms";
+
 
 export const routes = [
     {
@@ -14,6 +15,11 @@ export const routes = [
     {
         path: '/spa',
         element: <MainPage />,
+    },
+    {
+        path: '/spa/recomendedfilm',
+        element: <RecomendedFilm />
     }
+
 
 ];

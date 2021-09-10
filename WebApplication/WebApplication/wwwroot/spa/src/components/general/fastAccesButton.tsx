@@ -1,5 +1,4 @@
 import { Button, Container, Navbar } from "react-bootstrap";
-import { Link, Outlet } from "react-router-dom";
 
 
 const FastButton = () => {
@@ -9,8 +8,8 @@ const FastButton = () => {
         <Button className="primary" href={'spa/topfilms'} >
           Получить лучшие фильмы
         </Button>{' '}
-        <Button variant="secondary" size="lg">
-          Large button
+        <Button className="primary" href={'spa/recomendedfilm'}>
+          Фильм по погоде
         </Button>
       </div>
     </>

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Pagination, Alert, Spinner, Col, Nav, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Alert, Spinner, Col, Nav, Button } from "react-bootstrap";
 import { fetchTopFilms } from "../../services/topFilmsService";
 import FilmDTO from "../../types/films";
 import Film from "../general/film";
@@ -10,14 +9,6 @@ import Film from "../general/film";
 const TopFilms = () => {
 
     const [activePage, setActivePage] = useState(1);
-
-    const PageUp = () => {
-        setActivePage(activePage + 1);
-    }
-
-    const PageDown = () => {
-        setActivePage(activePage - 1)
-    }
     const [films, setFilms] = useState<FilmDTO[]>([]);
     const [error, setError] = useState("");
 

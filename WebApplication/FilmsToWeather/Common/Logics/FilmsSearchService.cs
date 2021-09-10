@@ -30,7 +30,7 @@ namespace FilmsToWeather.Common.Logics
             _filterCasheService = filterCasheService;
         }
 
-        public async Task<FilmModel[]> GetFilm(string _lat, string _lon)
+        public async Task<FilmModel[]> GetRecomendedFilm(string _lat, string _lon)
         {
             var weather = await _weatherApi.GetWeather(_lat,_lon);
             var genres = await GetFilter(weather.Condition, weather.Season, weather.Daytime);
