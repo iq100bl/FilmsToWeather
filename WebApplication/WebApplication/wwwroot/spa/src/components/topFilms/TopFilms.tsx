@@ -9,14 +9,14 @@ import Film from "../general/film";
 
 const TopFilms = () => {
 
-    let activePage = 1;
+    const [activePage, setActivePage] = useState(1);
 
-    function PageUp() {
-        activePage += 1;
+    const PageUp = () => {
+        setActivePage(activePage + 1);
     }
 
-    function PageDown() {
-        activePage -= 1;
+    const PageDown = () => {
+        setActivePage(activePage - 1)
     }
     const [films, setFilms] = useState<FilmDTO[]>([]);
     const [error, setError] = useState("");
@@ -42,8 +42,8 @@ const TopFilms = () => {
                 <Col></Col>
 
                 <Nav>
-                    <Button variant="primary" size="lg" onClick={() => PageDown} disabled={activePage === 1}>Назад</Button>
-                    <Button variant="primary" size="lg" onClick={() => PageUp} disabled={activePage === 13}>Вперёд</Button>
+                    <Button variant="primary" size="lg" onClick={() => setActivePage(activePage - 1)} disabled={activePage === 1}>Назад</Button>
+                    <Button variant="primary" size="lg" onClick={() => setActivePage(activePage + 1)} disabled={activePage === 13}>Вперёд</Button>
                 </Nav>
             </div>
 
