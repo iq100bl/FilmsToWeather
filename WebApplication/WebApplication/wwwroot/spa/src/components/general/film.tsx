@@ -1,5 +1,4 @@
-import { Button, Card, Col, Row } from "react-bootstrap";
-import { MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBRow, MDBCol } from 'mdb-react-ui-kit';
+import { MDBCard, MDBRow, MDBCol, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText } from "mdb-react-ui-kit";
 import FilmDTO from "../../types/films";
 
 interface Props extends FilmDTO {

@@ -1,7 +1,6 @@
 ﻿using DatabaseAccess.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace DatabaseAccess
 {
@@ -20,10 +19,6 @@ namespace DatabaseAccess
         public DbSet<FilmToWeatherMap> FilmToWeatherMaps { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        {
-        }
-
-        public ApplicationContext()
         {
         }
 

@@ -11,7 +11,6 @@ namespace DatabaseAccess.Entities
     {
         public Guid Id { get; set; }
 
-        [MaxLength(50)]
         public string UrlLocalYandex { get; set; }
 
         [MaxLength(50)]
@@ -22,6 +21,8 @@ namespace DatabaseAccess.Entities
 
         [MaxLength(50)]
         public string Daytime { get; set; }
+
+        public DateTime UpdateAt { get; set; }
 
         [MaxLength(50)]
         public string Latitude { get; set; }
