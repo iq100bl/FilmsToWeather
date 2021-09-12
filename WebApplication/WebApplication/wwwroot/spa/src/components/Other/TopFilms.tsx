@@ -5,7 +5,6 @@ import FilmDTO from "../../types/films";
 import Film from "../general/film";
 
 
-
 const TopFilms = () => {
 
     const [activePage, setActivePage] = useState(1);

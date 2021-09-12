@@ -3,5 +3,5 @@ import { httpGet, httpPost } from "./requestApi"
 
 
 export const fetchRecomendedFilm = () => {
-    return httpPost<FilmDTO>("recomendedfilm");
+    return httpPost<FilmDTO[]>("recomendedFilm");
 }

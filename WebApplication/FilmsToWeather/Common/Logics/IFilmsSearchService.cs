@@ -6,6 +6,7 @@ namespace FilmsToWeather.Common.Logics
 {
     public interface IFilmsSearchService
     {
-        Task<FilmModel[]> GetRecomendedFilm(string _lat, string _lon);
+        Task<FilmModel[]> GetRecomendedFilm(CityModel city);
+        Task Update(WeatherCityInfo weatherCityInfo);
     }
 }

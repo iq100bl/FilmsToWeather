@@ -18,7 +18,10 @@ export const routes = [
     },
     {
         path: '/spa/recomendedfilm',
-        element: <RecomendedFilm />
+        element: <Layout />,
+        children: [
+            { path: '/', element: <RecomendedFilm /> }
+        ]
     }
 
 

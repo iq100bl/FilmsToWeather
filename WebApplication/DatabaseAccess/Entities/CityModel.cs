@@ -23,6 +23,7 @@ namespace DatabaseAccess.Entities
         public ICollection<User> Users { get; set; }
 
         public Guid? WeatherCitiesInfoId { get; set; }
+
         public WeatherCityInfo WeatherCitiesInfo { get; set; }
 
 
