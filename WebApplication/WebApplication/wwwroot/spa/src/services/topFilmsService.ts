@@ -1,5 +1,5 @@
-import { FilmDTO } from "../types/films"
-import { httpGet, httpPost } from "./requestApi"
+import FilmDTO from "../types/films";
+import { httpPost } from "./requestApi";
 
 
 export const fetchTopFilms = (Page: number) => {
