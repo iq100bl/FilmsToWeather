@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Flurl;
-using Flurl.Http;
 using Microsoft.Extensions.Configuration;
 using FilmsToWeather.Apis.Kinopoisk.Entities;
-using FilmsToWeather.Common.Entities;
 using DatabaseAccess.Entities;
+using Flurl.Http;
+using Flurl;
 
 namespace FilmsToWeather.Apis.Kinopoisk
 {

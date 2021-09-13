@@ -1,8 +1,7 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using FilmsToWeather.Common.Logics;
 using Microsoft.Extensions.Hosting;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FilmsToWeather
 {
