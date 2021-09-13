@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.31515.178
+VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "WebApplication\WebApplication.csproj", "{79618B8B-3855-4F17-B2F8-6791872C192E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "WebApplication\WebApplication.csproj", "{CC67ED55-3F46-4747-8900-047AFA7F3335}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseAccess", "DatabaseAccess\DatabaseAccess.csproj", "{A78317C8-2B33-48E9-9AB0-D150E74FA5EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseAccess", "\\PLAVILION\Education\RepositoryForWork\WebApplication\DatabaseAccess\DatabaseAccess.csproj", "{E3870F05-7AF6-4353-BA7D-8203DA216EFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmsToWeather", "FilmsToWeather\FilmsToWeather.csproj", "{783FC5B7-C92D-48ED-9BCF-D00A4AB42040}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmsToWeather", "\\PLAVILION\Education\RepositoryForWork\WebApplication\FilmsToWeather\FilmsToWeather.csproj", "{5EB4230B-931D-4E4A-85CF-E3C99BA42217}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{79618B8B-3855-4F17-B2F8-6791872C192E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79618B8B-3855-4F17-B2F8-6791872C192E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79618B8B-3855-4F17-B2F8-6791872C192E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79618B8B-3855-4F17-B2F8-6791872C192E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A78317C8-2B33-48E9-9AB0-D150E74FA5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A78317C8-2B33-48E9-9AB0-D150E74FA5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A78317C8-2B33-48E9-9AB0-D150E74FA5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A78317C8-2B33-48E9-9AB0-D150E74FA5EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{783FC5B7-C92D-48ED-9BCF-D00A4AB42040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{783FC5B7-C92D-48ED-9BCF-D00A4AB42040}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{783FC5B7-C92D-48ED-9BCF-D00A4AB42040}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{783FC5B7-C92D-48ED-9BCF-D00A4AB42040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC67ED55-3F46-4747-8900-047AFA7F3335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC67ED55-3F46-4747-8900-047AFA7F3335}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC67ED55-3F46-4747-8900-047AFA7F3335}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC67ED55-3F46-4747-8900-047AFA7F3335}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3870F05-7AF6-4353-BA7D-8203DA216EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3870F05-7AF6-4353-BA7D-8203DA216EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3870F05-7AF6-4353-BA7D-8203DA216EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3870F05-7AF6-4353-BA7D-8203DA216EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EB4230B-931D-4E4A-85CF-E3C99BA42217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB4230B-931D-4E4A-85CF-E3C99BA42217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB4230B-931D-4E4A-85CF-E3C99BA42217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB4230B-931D-4E4A-85CF-E3C99BA42217}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E3D592A4-E70A-4C36-B21D-95A4575EEBE8}
+		SolutionGuid = {852DB8DF-E513-48BC-A380-329F5A4D4621}
 	EndGlobalSection
 EndGlobal

@@ -1,74 +1,26 @@
-using System;
-using System.Data.Entity;
-using System.Threading.Tasks;
-using DatabaseAccess;
-using DatabaseAccess.Infrastructure.Initializers;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Serilog;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebApplication
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.Console()
-                .WriteTo.File("Logs/logs.txt", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
-
-            try
-            {
-                Log.Information("Starting web host");
-                var host = CreateWebHostBuilder(args).Build();
-                await SeedDatabase(host);
-                await host.RunAsync();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Host terminated unexpectedly");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureAppConfiguration((context, builder) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    IHostEnvironment env = context.HostingEnvironment;
-
-                    builder
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true)
-                        .AddJsonFile("appsettings.Personal.json", true, true);
-                })
-                .UseStartup<Startup>();
-
-        private static async Task SeedDatabase(IWebHost host)
-        {
-            using var scope = host.Services.CreateScope();
-            var services = scope.ServiceProvider;
-            try
-            {
-                var context = services.GetRequiredService<ApplicationContext>();
-                foreach (var initializer in services.GetServices<IDatabaseInitializer>())
-                {
-                    await initializer.Execute(context);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Cannot initialize database.");
-            }
-        }
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

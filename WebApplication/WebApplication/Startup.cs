@@ -1,4 +1,4 @@
-﻿using DatabaseAccess;
+using DatabaseAccess;
 using DatabaseAccess.Entities;
 using FilmsToWeather.Apis.Kinopoisk;
 using FilmsToWeather.Apis.YandexWeather;
@@ -32,7 +32,7 @@ namespace WebApplication
             services.AddSingleton<IFilterCasheService, FilterCasheService>();
 
             services.AddTransient<IWeatherApi, WeatherApi>();
-            services.AddTransient<IKinopoiskApi, KinopoiskApi>();//ïðîòåñòèòü scoped
+            services.AddTransient<IKinopoiskApi, KinopoiskApi>();//i?ioanoeou scoped
             services.AddTransient<IFilmsSearchService, FilmsSearchService>();
 
 
