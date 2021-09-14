@@ -15,6 +15,7 @@ using WebApplication.Models;
 
 namespace WebApplication.Controllers.Api
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class RecomendedFilmController : ControllerBase
@@ -38,13 +39,12 @@ namespace WebApplication.Controllers.Api
             _context = context;
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<FilmModelView[]> GetRecomendedFilm()
         {
             var city = _context.Cities.Where(x => x.Id == _context.Users.Where(x => x.Id == _userManager.GetUserId(User)).Select(x => x.CityId).FirstOrDefault()).FirstOrDefault();
             var recomendedFilms = await _filmsSearchService.GetRecomendedFilm(city);
-
-            var viewModels = recomendedFilms.Except(_context.UserFilms.Where(x => x.UserId == _userManager.GetUserId(User)).Select(x => x.Films).FirstOrDefault()).Select(x => new FilmModelView
+            var viewModels = recomendedFilms.Except<FilmModel>(_context.UserFilms.Where(x => x.UserId == _userManager.GetUserId(User)).Select(x => x.Films.FirstOrDefault())).Select(x => new FilmModelView
             {
                 FilmId = x.FilmId,
                 NameRu = x.NameRu,
