@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>ee3c8d0a-4d02-401d-a467-26e2452b8c22</UserSecretsId>
+    <UserSecretsId>bf26a954-5782-4529-8f7c-3a80d6da0139</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,5 +20,7 @@
     <ProjectReference Include="..\DatabaseAccess\DatabaseAccess.csproj" />
     <ProjectReference Include="..\FilmsToWeather\FilmsToWeather.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -32,10 +32,7 @@ const Header = () => {
                 <a className="nav-link text-dark" href="/spa" >Домашняя страница</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-dark" href="/spa" >Для чего сайт нужен?</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-dark" href="/spa">Users</a>
+                <a className="nav-link text-dark" href="/spa/profile" >Профиль фильмов</a>
               </li>
             </ul>
           </div>

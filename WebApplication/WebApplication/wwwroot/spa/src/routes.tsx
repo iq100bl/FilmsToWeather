@@ -1,5 +1,6 @@
 import MainPage from "./components/general/mainPage";
 import Layout from "./components/Other/layout";
+import Profile from "./components/Other/Profile";
 import RecomendedFilm from "./components/Other/RecomendedFilm";
 import TopFilms from "./components/Other/TopFilms";
 
@@ -22,7 +23,9 @@ export const routes = [
         children: [
             { path: '/', element: <RecomendedFilm /> }
         ]
+    }, {
+        path: '/spa/profile',
+        element: <Profile />
     }
-
 
 ];

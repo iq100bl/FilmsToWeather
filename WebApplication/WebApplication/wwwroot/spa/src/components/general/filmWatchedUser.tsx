@@ -25,8 +25,8 @@ const Film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description }
                                 <small className='text-muted'>Рейтинг на кинопоиске : {kinopoiskRating}</small>
                             </MDBCardText>
                             <Row>
-                                <Col><Button variant="primary">Выбрать</Button></Col>
-                                <Col><DropdownButton id="dropdown-basic-button" title="Смотели? Оставьте вашу оценку">
+                                <Col><Button variant="primary">Удалить из списка</Button></Col>
+                                <Col><DropdownButton id="dropdown-basic-button" title="Посмотели? Оставьте вашу оценку">
                                     <Dropdown.Item href="#/action-1">1</Dropdown.Item>
                                     <Dropdown.Item href="#/action-2">2</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3">3</Dropdown.Item>
