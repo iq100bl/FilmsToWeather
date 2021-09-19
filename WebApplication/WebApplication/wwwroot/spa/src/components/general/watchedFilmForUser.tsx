@@ -6,7 +6,7 @@ interface Props extends FilmDTO {
 
 }
 
-const Film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description }: Props) => {
+const WatchedFilm = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description }: Props) => {
     return (
         <>
             <MDBCard style={{ maxWidth: '1080px' }}>
@@ -32,4 +32,4 @@ const Film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description }
     );
 }
 
-export default Film;
+export default WatchedFilm;

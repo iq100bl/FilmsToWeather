@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Alert, Spinner, Col, Nav, Button } from "react-bootstrap";
-import { fetchTopFilms } from "../../services/FilmsService";
+import { fetchTopFilms } from "../../services/filmsService";
 import FilmDTO from "../../types/films";
 import Film from "../general/film";
 

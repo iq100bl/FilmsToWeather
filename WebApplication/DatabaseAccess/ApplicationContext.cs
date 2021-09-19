@@ -1,4 +1,5 @@
 ﻿using DatabaseAccess.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,8 @@ namespace DatabaseAccess
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
+        private readonly IHttpContextAccessor ihttpContextAccessor;
+
         public DbSet<FilmModel> FilmModels { get; set; }
 
         public DbSet<WeatherCityInfo> WeatherCityInfos { get; set; }

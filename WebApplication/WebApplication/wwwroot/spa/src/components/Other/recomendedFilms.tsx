@@ -1,7 +1,7 @@
 import { MDBCard, MDBRow, MDBCol, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
 import { Alert, Spinner, Col } from "react-bootstrap";
-import { fetchRecomendedFilm } from "../../services/FilmsService";
+import { fetchRecomendedFilm } from "../../services/filmsService";
 import FilmDTO from "../../types/films";
 import Film from "../general/film";
 

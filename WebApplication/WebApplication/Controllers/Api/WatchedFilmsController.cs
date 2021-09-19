@@ -8,8 +8,6 @@ using FilmsToWeather.Common.Logics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication.Models;
@@ -19,7 +17,7 @@ namespace WebApplication.Controllers.Api
     [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
-    public class RecomendedFilmController : ControllerBase
+    public class WatchedFilmsController : ControllerBase
     {
         private readonly IFilterCasheService _filterCasheService;
         private readonly IWeatherApi _weatherApi;
@@ -28,7 +26,7 @@ namespace WebApplication.Controllers.Api
         private readonly UserManager<User> _userManager;
         private readonly ApplicationContext _context;
 
-        public RecomendedFilmController(IFilterCasheService filterCasheService, IWeatherApi weatherApi,
+        public WatchedFilmsController(IFilterCasheService filterCasheService, IWeatherApi weatherApi,
                                        IKinopoiskApi kinopoiskApi, IFilmsSearchService filmsSearchService, 
                                        UserManager<User> userManager, ApplicationContext context)
         {
@@ -40,13 +38,12 @@ namespace WebApplication.Controllers.Api
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<FilmModelView[]> GetRecomendedFilm()
+
+        [HttpPost]
+        public async Task<FilmModelView[]> GetTopFilms(PageDto page)
         {
-            var activeUserId = _userManager.GetUserId(User);
-            var city = _context.Cities.AsNoTracking().Where(x => x.Id == _context.Users.Where(x => x.Id == activeUserId).Select(x => x.CityId).FirstOrDefault()).FirstOrDefault();
-            var recomendedFilms = await _filmsSearchService.GetRecomendedFilm(city);
-            var viewModels = recomendedFilms.Except<FilmModel>(_context.UserFilms.AsNoTracking().Where(x => x.UserId == activeUserId).Select(x => x.Films.FirstOrDefault())).Select(x => new FilmModelView
+            var topFilms = await _kinopoiskApi.GetTopFilms(page.Page);
+            var viewModels = topFilms.Select(x => new FilmModelView
             {
                 FilmId = x.FilmId,
                 NameRu = x.NameRu,
@@ -54,7 +51,7 @@ namespace WebApplication.Controllers.Api
                 KinopoiskRating = x.KinopoiskRating,
                 WebUrl = x.WebUrl,
                 Description = x.Description
-            }).Take(13).ToArray();
+            }).ToArray();
 
             return viewModels;
         }

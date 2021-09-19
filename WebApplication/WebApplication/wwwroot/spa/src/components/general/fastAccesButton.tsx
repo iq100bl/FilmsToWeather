@@ -5,10 +5,10 @@ const FastButton = () => {
   return (
     <>
       <div className="d-grid gap-2">
-        <Button className="primary" href={'spa/topfilms'} >
+        <Button className="primary" href={'spa/films/topfilms'} >
           Получить лучшие фильмы
         </Button>{' '}
-        <Button className="primary" href={'spa/recomendedfilm'}>
+        <Button className="primary" href={'spa/films/recomendedfilm'}>
           Фильм по погоде
         </Button>
       </div>

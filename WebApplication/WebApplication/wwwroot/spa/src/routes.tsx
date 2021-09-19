@@ -1,13 +1,15 @@
 import MainPage from "./components/general/mainPage";
 import Layout from "./components/Other/layout";
-import Profile from "./components/Other/Profile";
-import RecomendedFilm from "./components/Other/RecomendedFilm";
-import TopFilms from "./components/Other/TopFilms";
+import Profile from "./components/Other/profile";
+
+import RecomendedFilm from "./components/Other/recomendedFilms";
+import TopFilms from "./components/Other/topFilms";
+
 
 
 export const routes = [
     {
-        path: '/spa/topfilms',
+        path: '/spa/films/topfilms',
         element: <Layout />,
         children: [
             { path: '/', element: <TopFilms /> },
@@ -18,7 +20,7 @@ export const routes = [
         element: <MainPage />,
     },
     {
-        path: '/spa/recomendedfilm',
+        path: '/spa/films/recomendedfilm',
         element: <Layout />,
         children: [
             { path: '/', element: <RecomendedFilm /> }

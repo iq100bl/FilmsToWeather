@@ -1,5 +1,5 @@
 export interface FilmDTO {
-    filmId: string;
+    filmId: number;
 
     nameRu: string;
 
