@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Alert, Spinner, Col, Nav, Button } from "react-bootstrap";
-import { fetchTopFilms } from "../../services/filmsService";
+import { fetchTopFilms } from "../../services/filmService";
 import FilmDTO from "../../types/films";
 import Film from "../general/film";
 
@@ -27,7 +27,7 @@ const TopFilms = () => {
                 <Col xs lg="2"></Col>
                 <Col>
                     {films.length > 0 && films.map((film) =>
-                        <Film posterUrlPreview={film.posterUrlPreview} webUrl={film.webUrl} nameRu={film.nameRu} filmId={film.filmId} description={film.description} kinopoiskRating={film.kinopoiskRating} />)}
+                        <Film posterUrlPreview={film.posterUrlPreview} webUrl={film.webUrl} nameRu={film.nameRu} filmIdApi={film.filmIdApi} description={film.description} kinopoiskRating={film.kinopoiskRating} nameEn={film.nameEn} year={film.year} />)}
                 </Col>
                 <Col></Col>
 

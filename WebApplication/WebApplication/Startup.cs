@@ -1,5 +1,6 @@
 ﻿using DatabaseAccess;
 using DatabaseAccess.Entities;
+using DatabaseAccess.Services;
 using FilmsToWeather.Apis.Kinopoisk;
 using FilmsToWeather.Apis.YandexWeather;
 using FilmsToWeather.Common.Caching;
@@ -33,6 +34,9 @@ namespace WebApplication
             services.AddTransient<IWeatherApi, WeatherApi>();
             services.AddTransient<IKinopoiskApi, KinopoiskApi>();
             services.AddTransient<IFilmsSearchService, FilmsSearchService>();
+            services.AddTransient<IDbDtoService, IDbDtoService>();
+
+            services.AddHttpContextAccessor();
 
 
             IMvcBuilder builder = services.AddRazorPages();

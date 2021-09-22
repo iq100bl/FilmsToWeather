@@ -1,7 +1,12 @@
 export interface FilmDTO {
-    filmId: number;
+
+    filmIdApi: number;
 
     nameRu: string;
+
+    nameEn: string;
+
+    year: string;
 
     kinopoiskRating: number;
 

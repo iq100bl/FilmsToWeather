@@ -1,7 +1,7 @@
 import { MDBCard, MDBRow, MDBCol, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText } from "mdb-react-ui-kit";
 import { useState, useEffect } from "react";
 import { Alert, Spinner, Col } from "react-bootstrap";
-import { fetchRecomendedFilm } from "../../services/filmsService";
+import { fetchRecomendedFilms } from "../../services/filmService";
 import FilmDTO from "../../types/films";
 import Film from "../general/film";
 
@@ -12,7 +12,7 @@ const RecomendedFilm = () => {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        fetchRecomendedFilm().then((films) => {
+        fetchRecomendedFilms().then((films) => {
             setFilms(films);
             setError("")
         })
@@ -27,7 +27,7 @@ const RecomendedFilm = () => {
                 <Col xs lg="2"></Col>
                 <Col>
                     {films.length > 0 && films.map((film) =>
-                        <Film posterUrlPreview={film.posterUrlPreview} webUrl={film.webUrl} nameRu={film.nameRu} filmId={film.filmId} description={film.description} kinopoiskRating={film.kinopoiskRating} />)}
+                        <Film posterUrlPreview={film.posterUrlPreview} webUrl={film.webUrl} nameRu={film.nameRu} filmIdApi={film.filmIdApi} description={film.description} kinopoiskRating={film.kinopoiskRating} nameEn={film.nameEn} year={film.year} />)}
                 </Col>
                 <Col></Col>
             </div>

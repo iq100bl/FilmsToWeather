@@ -15,7 +15,5 @@ namespace DatabaseAccess.Entities
         public Guid UserFilmDataId { get; set; }
 
         public ICollection<UserFilmData> UserFilmData { get; set; }
-
-        public ICollection<FilmsRating> FilmsRatings { get; set; }
     }
 }

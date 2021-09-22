@@ -16,6 +16,11 @@ namespace DatabaseAccess.Entities
 
         public Boolean Watched { get; set; }
 
-        public ICollection<FilmModel> Films { get; set; }
+        public Byte Rating { get; set; }
+
+        public FilmModel Film { get; set; }
+
+        public Guid FilmId { get; set; }
+
     }
 }

@@ -14,5 +14,6 @@ namespace FilmsToWeather.Apis.Kinopoisk
 
         Task<FilmModel[]> SearchFilmByFilter(int[] genreIds);
 
+        Task<FilmInfoResponse> GetFilmInfo(string filmId);
     }
 }

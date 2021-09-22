@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Accordion, Alert, Col, Container, Row, Spinner } from "react-bootstrap";
-import { fetchActiveFilmsOfUser, fetchWatchedFilmsOfUser } from "../../services/filmsService";
+import { fetchActiveFilmsOfUser, fetchWatchedFilmsOfUser } from "../../services/filmService";
 import FilmDTO from "../../types/films";
 import ActiveFilm from "../general/activeFilmforUser";
-import FastButton from "../general/fastAccesButton"
 import WatchedFilm from "../general/watchedFilmForUser";
 
 const Profile = () => {
@@ -38,7 +37,10 @@ const Profile = () => {
                                 <Col xs lg="2"></Col>
                                 <Col>
                                     {activeFilms.length > 0 && activeFilms.map((film) =>
-                                        <ActiveFilm posterUrlPreview={film.posterUrlPreview} webUrl={film.webUrl} nameRu={film.nameRu} filmId={film.filmId} description={film.description} kinopoiskRating={film.kinopoiskRating} />)}
+                                        <ActiveFilm posterUrlPreview={film.posterUrlPreview}
+                                            webUrl={film.webUrl} nameRu={film.nameRu}
+                                            filmIdApi={film.filmIdApi} description={film.description}
+                                            kinopoiskRating={film.kinopoiskRating} nameEn={film.nameEn} year={film.year} />)}
                                 </Col>
                                 <Col></Col>
                             </div>
@@ -55,7 +57,10 @@ const Profile = () => {
                                 <Col xs lg="2"></Col>
                                 <Col>
                                     {WatchedFilms.length > 0 && WatchedFilms.map((film) =>
-                                        <WatchedFilm posterUrlPreview={film.posterUrlPreview} webUrl={film.webUrl} nameRu={film.nameRu} filmId={film.filmId} description={film.description} kinopoiskRating={film.kinopoiskRating} />)}
+                                        <WatchedFilm posterUrlPreview={film.posterUrlPreview}
+                                            webUrl={film.webUrl} nameRu={film.nameRu}
+                                            filmIdApi={film.filmIdApi} description={film.description}
+                                            kinopoiskRating={film.kinopoiskRating} nameEn={film.nameEn} year={film.year} />)}
                                 </Col>
                                 <Col></Col>
                             </div>

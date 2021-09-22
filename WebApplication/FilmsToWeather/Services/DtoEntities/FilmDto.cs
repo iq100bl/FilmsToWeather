@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApplication.Models
+namespace FilmsToWeather.Services.DtoEntities
 {
-    public class FilmModelView
+    public class FilmDto
     {
         public int FilmIdApi { get; set; }
 
@@ -22,5 +23,6 @@ namespace WebApplication.Models
         public string WebUrl { get; set; }
 
         public string Description { get; set; }
+
     }
 }

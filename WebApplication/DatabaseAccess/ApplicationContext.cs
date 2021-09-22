@@ -7,15 +7,11 @@ namespace DatabaseAccess
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
-        private readonly IHttpContextAccessor ihttpContextAccessor;
-
         public DbSet<FilmModel> FilmModels { get; set; }
 
         public DbSet<WeatherCityInfo> WeatherCityInfos { get; set; }
 
         public DbSet<CityModel> Cities { get; set; }
-
-        public DbSet<FilmsRating> FilmsRatings { get; set; }
 
         public DbSet<UserFilmData> UserFilms { get; set; }
 
@@ -45,19 +41,9 @@ namespace DatabaseAccess
                .HasForeignKey(x => x.UserId);
 
             builder.Entity<UserFilmData>()
-                .HasMany(x => x.Films)
-                .WithOne(x => x.UserFilmData)
-                .HasForeignKey(x => x.UserFilmsDataId);
-
-            builder.Entity<FilmsRating>()
-                .HasOne(x => x.User)
-                .WithMany(x => x.FilmsRatings)
-                .HasForeignKey(x => x.UserId);
-
-            builder.Entity<FilmsRating>()
-                .HasMany(x => x.Films)
-                .WithOne(x => x.FilmsRating)
-                .HasForeignKey(x => x.FilmsRatingId);
+                .HasOne(x => x.Film)
+                .WithMany(x => x.UserFilmDatas)
+                .HasForeignKey(x => x.FilmId);
         }
     }
 } 

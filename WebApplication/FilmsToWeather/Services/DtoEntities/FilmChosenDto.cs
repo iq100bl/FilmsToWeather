@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FilmsToWeather.Apis.Kinopoisk.Entities
 {
-    public class PageDto
+    public class FilmChosenDto
     {
-        public int Page { get; set; }
+        public int Id { get; set; }
 
     }
 }

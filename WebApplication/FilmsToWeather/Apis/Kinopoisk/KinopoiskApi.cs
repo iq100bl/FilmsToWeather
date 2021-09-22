@@ -65,7 +65,7 @@ namespace FilmsToWeather.Apis.Kinopoisk
             return await ConvertToFilmModel(searchResults);
         }
 
-        private async Task<FilmInfoResponse> GetFilmInfo(string filmId)
+        public async Task<FilmInfoResponse> GetFilmInfo(string filmId)
         {
             var filmInfo = _infoFilmApi
                 .AppendPathSegment(filmId)
@@ -83,10 +83,10 @@ namespace FilmsToWeather.Apis.Kinopoisk
 
             foreach (var film in filmsResponse.FilmTopResponseFilms)
             {
-                var info = await GetFilmInfo(film.FilmId.ToString());
+                var info = await GetFilmInfo(film.FilmIdApi.ToString());
                 FilmModel filmModel = new()
-                {
-                    FilmId = film.FilmId,
+                { 
+                    FilmIdApi = film.FilmIdApi,
                     NameEn = film.NameEn,
                     NameRu = film.NameRu,
                     PosterUrlPreview = film.PosterUrlPreview,

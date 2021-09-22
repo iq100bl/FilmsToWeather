@@ -11,7 +11,7 @@ namespace FilmsToWeather.Apis.Kinopoisk.Entities
     public class FilmModelResponse
     {
         [JsonProperty("filmId")]
-        public int FilmId { get; set; }
+        public int FilmIdApi { get; set; }
 
         [JsonProperty("nameRu")]
         public string NameRu { get; set; }

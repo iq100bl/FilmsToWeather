@@ -29,7 +29,7 @@ namespace WebApplication.Controllers
             var topFilms = await _kinopoiskApi.GetTopFilms(1);
             var viewModels = topFilms.Select(x => new FilmModelView
             {
-                FilmId = x.FilmId,
+                FilmIdApi = x.FilmIdApi,
                 NameRu = x.NameRu,
                 PosterUrlPreview = x.PosterUrlPreview,
                 KinopoiskRating = x.KinopoiskRating,

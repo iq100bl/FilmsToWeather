@@ -2,10 +2,8 @@ import { MDBCard, MDBRow, MDBCol, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCa
 import React from "react";
 import { useState } from "react";
 import { Row, Col, Button, DropdownButton, Dropdown, DropdownProps } from "react-bootstrap";
-import DropdownItem from "react-bootstrap/esm/DropdownItem";
-import { SelectCallback } from "react-bootstrap/esm/helpers";
 import { useNavigate } from "react-router-dom";
-import { giveChosenFilm, giveRatingFilmFromUser } from "../../services/filmsService";
+import { giveChosenFilm, giveRatingFilmFromUser } from "../../services/filmService";
 import FilmDTO from "../../types/films";
 
 
@@ -13,21 +11,23 @@ interface Props extends FilmDTO {
 
 }
 
-const Film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description, filmId }: Props) => {
+const Film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description, filmIdApi, year, nameEn }: Props) => {
     const [error, setError] = useState("");
-    const [rete, setRate] = useState("");
+
     const navigate = useNavigate();
 
+    const film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description, filmIdApi, year, nameEn });
+
     const chooseFilm = () => {
-        giveChosenFilm(filmId).then(() => {
+        giveChosenFilm(filmIdApi, nameRu, nameEn, year, kinopoiskRating, posterUrlPreview, webUrl, description).then(() => {
             navigate('/spa/profile');
         }).catch((e) => {
             setError(e.message);
         })
     }
 
-    const handleRatingChange = () => {
-        giveRatingFilmFromUser(filmId, setRate()).then(() => {
+    const handleRatingChange = (rate: number) => {
+        giveRatingFilmFromUser(+filmIdApi, rate).then(() => {
             navigate('/spa/profile');
         }).catch((e) => {
             setError(e.message);
@@ -49,21 +49,22 @@ const Film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description, 
                             </MDBCardText>
                             <MDBCardText>
                                 <small className='text-muted'>Рейтинг на кинопоиске : {kinopoiskRating}</small>
+                                <small className='text-muted'>ID : {filmIdApi}</small>
                             </MDBCardText>
                         </MDBCardBody>
                         <Row>
                             <Col><Button variant="primary" onClick={chooseFilm}>Выбрать</Button></Col>
-                            <Col><DropdownButton onClick={handleRatingChange} id="dropdown-basic-button" title="Смотели? Оставьте вашу оценку">
-                                <Dropdown.Item value="1">1</Dropdown.Item>
-                                <Dropdown.Item value="2">2</Dropdown.Item>
-                                <Dropdown.Item value="3">3</Dropdown.Item>
-                                <Dropdown.Item value="4">4</Dropdown.Item>
-                                <Dropdown.Item value="5">5</Dropdown.Item>
-                                <Dropdown.Item value="6">6</Dropdown.Item>
-                                <Dropdown.Item value="7">7</Dropdown.Item>
-                                <Dropdown.Item value="8">8</Dropdown.Item>
-                                <Dropdown.Item value="9">9</Dropdown.Item>
-                                <Dropdown.Item value="10">10</Dropdown.Item>
+                            <Col><DropdownButton id="dropdown-basic-button" title="Смотели? Оставьте вашу оценку">
+                                <Dropdown.Item onClick={() => handleRatingChange(1)}>1</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(2)}>2</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(3)}>3</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(4)}>4</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(5)}>5</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(6)}>6</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(7)}>7</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(8)}>8</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(9)}>9</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(10)}>10</Dropdown.Item>
                             </DropdownButton></Col>
                         </Row>
                     </MDBCol>

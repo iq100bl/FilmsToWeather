@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DatabaseAccess.Entities
@@ -7,7 +8,7 @@ namespace DatabaseAccess.Entities
     {
         public Guid Id { get; set; }
 
-        public int FilmId { get; set; }
+        public int FilmIdApi { get; set; }
 
         [MaxLength(50)]
         public string NameRu { get; set; }
@@ -29,24 +30,17 @@ namespace DatabaseAccess.Entities
         [MaxLength(4000)]
         public string Description { get; set; }
 
-        public Guid UserFilmsDataId { get; set; }
-
-        public UserFilmData UserFilmData { get; set; }
-
-        public Guid FilmsRatingId { get; set; }
-
-        public FilmsRating FilmsRating { get; set; }
-
+        public ICollection<UserFilmData> UserFilmDatas { get; set; }
 
         public bool Equals(FilmModel other)
         {
             if (other is null)
                 return false;
 
-            return this.FilmId == other.FilmId;
+            return this.FilmIdApi == other.FilmIdApi;
         }
 
         public override bool Equals(object obj) => Equals(obj as FilmModel);
-        public override int GetHashCode() => (FilmId).GetHashCode();
+        public override int GetHashCode() => (FilmIdApi).GetHashCode();
     }
 }

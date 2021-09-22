@@ -1,12 +1,26 @@
 import { MDBCard, MDBRow, MDBCol, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText } from "mdb-react-ui-kit";
+import { useState } from "react";
 import { DropdownButton, Dropdown, Button, Col, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { giveRatingFilmFromUser } from "../../services/filmService";
 import FilmDTO from "../../types/films";
 
 interface Props extends FilmDTO {
 
 }
 
-const ActiveFilm = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description }: Props) => {
+const ActiveFilm = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description, filmIdApi, nameEn, year }: Props) => {
+    const [error, setError] = useState("");
+
+    const navigate = useNavigate();
+
+    const handleRatingChange = (rating: number) => {
+        giveRatingFilmFromUser(filmIdApi, rating).then(() => {
+            navigate('/spa/profile');
+        }).catch((e) => {
+            setError(e.message);
+        })
+    }
     return (
         <>
             <MDBCard style={{ maxWidth: '1080px' }}>
@@ -27,16 +41,16 @@ const ActiveFilm = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, descrip
                             <Row>
                                 <Col><Button variant="primary">Удалить из списка</Button></Col>
                                 <Col><DropdownButton id="dropdown-basic-button" title="Посмотели? Оставьте вашу оценку">
-                                    <Dropdown.Item href="#/action-1">1</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">2</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">3</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-4">4</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-5">5</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-6">6</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-7">7</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-8">8</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-9">9</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-10">10</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(1)}>1</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(2)}>2</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(3)}>3</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(4)}>4</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(5)}>5</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(6)}>6</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(7)}>7</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(8)}>8</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(9)}>9</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => handleRatingChange(10)}>10</Dropdown.Item>
                                 </DropdownButton></Col>
                             </Row>
                         </MDBCardBody>

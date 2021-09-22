@@ -8,7 +8,7 @@ const FastButton = () => {
         <Button className="primary" href={'spa/films/topfilms'} >
           Получить лучшие фильмы
         </Button>{' '}
-        <Button className="primary" href={'spa/films/recomendedfilm'}>
+        <Button className="primary" href={'spa/films/recomendedfilms'}>
           Фильм по погоде
         </Button>
       </div>

@@ -4,14 +4,16 @@ using DatabaseAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseAccess.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210920152758_CorrectedTheLinkOfFilmsFromTheUserDateTransferredTheRatingToTheUseDateV2DeleteRateOnUser")]
+    partial class CorrectedTheLinkOfFilmsFromTheUserDateTransferredTheRatingToTheUseDateV2DeleteRateOnUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,8 +66,11 @@ namespace DatabaseAccess.Migrations
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
 
-                    b.Property<int>("FilmIdApi")
+                    b.Property<int>("FilmId")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("FilmsRatingId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("KinopoiskRating")
                         .HasMaxLength(10)
@@ -93,7 +98,28 @@ namespace DatabaseAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FilmsRatingId");
+
                     b.ToTable("FilmModels");
+                });
+
+            modelBuilder.Entity("DatabaseAccess.Entities.FilmsRating", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte>("Rating")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FilmsRatings");
                 });
 
             modelBuilder.Entity("DatabaseAccess.Entities.User", b =>
@@ -395,6 +421,22 @@ namespace DatabaseAccess.Migrations
                     b.Navigation("WeatherCitiesInfo");
                 });
 
+            modelBuilder.Entity("DatabaseAccess.Entities.FilmModel", b =>
+                {
+                    b.HasOne("DatabaseAccess.Entities.FilmsRating", null)
+                        .WithMany("Films")
+                        .HasForeignKey("FilmsRatingId");
+                });
+
+            modelBuilder.Entity("DatabaseAccess.Entities.FilmsRating", b =>
+                {
+                    b.HasOne("DatabaseAccess.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DatabaseAccess.Entities.User", b =>
                 {
                     b.HasOne("DatabaseAccess.Entities.CityModel", "City")
@@ -482,6 +524,11 @@ namespace DatabaseAccess.Migrations
             modelBuilder.Entity("DatabaseAccess.Entities.FilmModel", b =>
                 {
                     b.Navigation("UserFilmDatas");
+                });
+
+            modelBuilder.Entity("DatabaseAccess.Entities.FilmsRating", b =>
+                {
+                    b.Navigation("Films");
                 });
 
             modelBuilder.Entity("DatabaseAccess.Entities.User", b =>
