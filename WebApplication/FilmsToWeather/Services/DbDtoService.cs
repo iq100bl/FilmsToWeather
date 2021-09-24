@@ -60,21 +60,24 @@ namespace DatabaseAccess.Services
             var userId = GetUserId();
             var x = _context.Users.FirstOrDefault(x => x.Id == userId);
 
-            await _context.UserFilms.AddAsync(new UserFilmData { Film = new FilmModel { 
-                Description = film.Description, 
-                KinopoiskRating = film.KinopoiskRating, 
-                Id = Guid.NewGuid(), 
-                FilmIdApi = film.FilmIdApi, 
-                NameEn = film.NameEn, 
-                NameRu = film.NameRu, 
-                PosterUrlPreview = film.PosterUrlPreview, 
-                WebUrl = film.WebUrl, 
-                Year = film.Year }, 
-                FilmId = film.Id, 
-                Id = Guid.NewGuid(), 
-                UserId = userId, 
-                Watched = false });
-           
+            await _context.UserFilms.AddRangeAsync(new UserFilmData
+            {
+                Film = new FilmModel
+                {
+                    Description = film.Description,
+                    KinopoiskRating = film.KinopoiskRating,
+                    FilmIdApi = film.FilmIdApi,
+                    NameEn = film.NameEn,
+                    NameRu = film.NameRu,
+                    PosterUrlPreview = film.PosterUrlPreview,
+                    WebUrl = film.WebUrl,
+                    Year = film.Year
+                },
+                FilmId = film.Id,
+                UserId = userId,
+                Watched = false
+            });
+
             await _context.SaveChangesAsync();
         }
 

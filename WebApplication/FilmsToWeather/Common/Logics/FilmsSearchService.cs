@@ -47,9 +47,8 @@ namespace FilmsToWeather.Common.Logics
                 await _context.WeatherCityInfos.AddAsync(new WeatherCityInfo
                 {
                     CityId = city.Id,
-                    City = city,
                     UpdateAt = DateTime.UtcNow,
-                    Daytime = DateTime.UtcNow.ToString(),
+                    Daytime = weather.Daytime,
                     Condition = weather.Condition,
                     Latitude = weather.Latitude,
                     Longitude = weather.Longitude,

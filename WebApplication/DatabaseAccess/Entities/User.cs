@@ -12,8 +12,6 @@ namespace DatabaseAccess.Entities
         [MaxLength(20)]
         public CityModel City { get; set; }
 
-        public Guid UserFilmDataId { get; set; }
-
         public ICollection<UserFilmData> UserFilmData { get; set; }
     }
 }
