@@ -13,21 +13,16 @@ namespace DatabaseAccess.Entities
 
         public string UrlLocalYandex { get; set; }
 
-        [MaxLength(50)]
         public string Condition { get; set; }
 
-        [MaxLength(50)]
         public string Season { get; set; }
 
-        [MaxLength(50)]
         public string Daytime { get; set; }
 
         public DateTime UpdateAt { get; set; }
 
-        [MaxLength(50)]
         public string Latitude { get; set; }
 
-        [MaxLength(50)]
         public string Longitude { get; set; }
 
         public Guid CityId { get; set; }

@@ -11,10 +11,8 @@ namespace DatabaseAccess
     {
         public Guid Id { get; set; }
 
-        [MaxLength(10)]
         public string WeatherFeature { get; set; }
 
-        [MaxLength(10)]
         public string Genre { get; set; }
     }
 }
