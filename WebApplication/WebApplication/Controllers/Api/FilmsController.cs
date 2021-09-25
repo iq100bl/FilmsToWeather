@@ -49,26 +49,14 @@ namespace WebApplication.Controllers.Api
         [Route("ratingFromUser")]
         public async Task RateFilm(RateFilmDto rateFilmDto)
         {
-            var activeUserId = _userManager.GetUserId(User);
-            var film = await _kinopoiskApi.GetFilmInfo(rateFilmDto.Id.ToString());
+            await _dtoService.RateFilm(MappingToFilmModel(rateFilmDto.Film), rateFilmDto.Rating);
         }
 
         [HttpPost]
         [Route("selectFilm")]
         public async Task MakeFilmActive(FilmDto film)
         {
-            await _dtoService.MakeFilmActive(new FilmModel
-            {
-                Description = film.Description,
-                FilmIdApi = film.FilmIdApi,
-                KinopoiskRating = film.KinopoiskRating,
-                Id = Guid.NewGuid(),
-                NameEn = film.NameEn,
-                NameRu = film.NameRu,
-                PosterUrlPreview = film.PosterUrlPreview,
-                WebUrl = film.WebUrl,
-                Year = film.Year
-            });
+            await _dtoService.MakeFilmActive(MappingToFilmModel(film));
         }
 
         [HttpPost]
@@ -177,6 +165,22 @@ namespace WebApplication.Controllers.Api
             }).ToArray();
 
             return viewModels;
+        }
+
+        private static FilmModel MappingToFilmModel(FilmDto film)
+        {
+            return new FilmModel
+            {
+                Description = film.Description,
+                FilmIdApi = film.FilmIdApi,
+                KinopoiskRating = film.KinopoiskRating,
+                Id = Guid.NewGuid(),
+                NameEn = film.NameEn,
+                NameRu = film.NameRu,
+                PosterUrlPreview = film.PosterUrlPreview,
+                WebUrl = film.WebUrl,
+                Year = film.Year
+            };
         }
     }
 }

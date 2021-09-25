@@ -12,10 +12,12 @@ interface Props extends FilmDTO {
 const ActiveFilm = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description, filmIdApi, nameEn, year }: Props) => {
     const [error, setError] = useState("");
 
+    const film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description, filmIdApi, year, nameEn });
+
     const navigate = useNavigate();
 
     const handleRatingChange = (rating: number) => {
-        giveRatingFilmFromUser(filmIdApi, rating).then(() => {
+        giveRatingFilmFromUser(filmIdApi, nameRu, nameEn, year, kinopoiskRating, posterUrlPreview, webUrl, description, rating).then(() => {
             navigate('/spa/profile');
         }).catch((e) => {
             setError(e.message);

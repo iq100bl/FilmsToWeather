@@ -14,11 +14,11 @@ export const fetchRecomendedFilms = () => {
 
 export const giveChosenFilm = (filmIdApi: number,
     nameRu: string, nameEn: string,
-    Year: string, kinopoiskRating: number,
+    year: string, kinopoiskRating: number,
     posterUrlPreview: string, webUrl: string,
     description: string) => {
     return httpPost<FilmDTO>("films/selectFilm", {
-        body: { posterUrlPreview, webUrl, nameRu, filmIdApi, description, kinopoiskRating, nameEn, Year },
+        body: { posterUrlPreview, webUrl, nameRu, filmIdApi, description, kinopoiskRating, nameEn, year },
     });
 }
 
@@ -30,8 +30,12 @@ export const fetchWatchedFilmsOfUser = () => {
     return httpGet<FilmDTO[]>("films/WatchedFilms");
 }
 
-export const giveRatingFilmFromUser = (filmIadApi: number, rating: number) => {
+export const giveRatingFilmFromUser = (filmIdApi: number,
+    nameRu: string, nameEn: string,
+    year: string, kinopoiskRating: number,
+    posterUrlPreview: string, webUrl: string,
+    description: string, rating: number) => {
     return httpPost("films/ratingFromUser", {
-        body: { filmIadApi, rating }
+        body: { posterUrlPreview, webUrl, nameRu, filmIdApi, description, kinopoiskRating, nameEn, year, rating }
     });
 }

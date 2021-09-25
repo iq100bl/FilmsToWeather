@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FilmsToWeather.Services.DtoEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace FilmsToWeather.Apis.Kinopoisk.Entities
 {
     public class RateFilmDto
     {
-        public int Id { get; set; }
+        public FilmDto Film { get; set; }
 
-        public int Rating { get; set; }
+        public byte Rating { get; set; }
     }
 }

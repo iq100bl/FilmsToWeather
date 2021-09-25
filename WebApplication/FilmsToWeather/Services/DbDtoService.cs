@@ -38,6 +38,20 @@ namespace DatabaseAccess.Services
             _filmsSearchService = filmsSearchService;
         }
 
+        public async Task RateFilm(FilmModel film, byte rating)
+        {
+
+            var userId = GetUserId();
+            var filmForRate = _context.UserFilms.Where(x => x.UserId == SearchUserInContext().Id).Include(x => x.Film).FirstOrDefault(x => x.Film.FilmIdApi == film.FilmIdApi);
+            if (filmForRate == null && filmForRate == default)
+            {
+                await CreateUserFilmData(film, userId);
+            }
+            filmForRate.Rating = rating;
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<FilmModel[]> GetTopFilms(PageDto page)
         {
             var topFilms = await _kinopoiskApi.GetTopFilms(page.Page);
@@ -58,8 +72,13 @@ namespace DatabaseAccess.Services
         public async Task MakeFilmActive(FilmModel film)
         {
             var userId = GetUserId();
-            var x = _context.Users.FirstOrDefault(x => x.Id == userId);
+            await CreateUserFilmData(film, userId);
 
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task CreateUserFilmData(FilmModel film, string userId)
+        {
             await _context.UserFilms.AddRangeAsync(new UserFilmData
             {
                 Film = new FilmModel
@@ -77,8 +96,6 @@ namespace DatabaseAccess.Services
                 UserId = userId,
                 Watched = false
             });
-
-            await _context.SaveChangesAsync();
         }
 
         private string GetUserId()
@@ -92,7 +109,7 @@ namespace DatabaseAccess.Services
         {
             var activeUserId = GetUserId();
 
-            return _context.Users.AsNoTracking().FirstOrDefault(x => x.Id == activeUserId);
+            return _context.Users.FirstOrDefault(x => x.Id == activeUserId);
         }
 
         private void SearchAndDeleteViewedMovies(FilmModel[] films)
