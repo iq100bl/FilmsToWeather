@@ -10,24 +10,18 @@ namespace DatabaseAccess.Entities
 
         public int FilmIdApi { get; set; }
 
-        [MaxLength(50)]
         public string NameRu { get; set; }
 
-        [MaxLength(50)]
         public string NameEn { get; set; }
 
-        [MaxLength(10)]
         public string Year { get; set; }
 
-        [MaxLength(10)]
         public string KinopoiskRating { get; set; }
 
-        [MaxLength(50)]
         public string PosterUrlPreview { get; set; }
 
-        [MaxLength(50)]
         public string WebUrl { get; set; }
-        [MaxLength(4000)]
+
         public string Description { get; set; }
 
         public ICollection<UserFilmData> UserFilmDatas { get; set; }
