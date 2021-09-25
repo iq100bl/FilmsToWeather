@@ -27,7 +27,7 @@ const Film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description, 
     }
 
     const handleRatingChange = (rate: number) => {
-        giveRatingFilmFromUser(+filmIdApi, rate).then(() => {
+        giveRatingFilmFromUser(filmIdApi, nameRu, nameEn, year, kinopoiskRating, posterUrlPreview, webUrl, description, rate).then(() => {
             navigate('/spa/profile');
         }).catch((e) => {
             setError(e.message);
