@@ -38,16 +38,50 @@ namespace DatabaseAccess.Services
             _filmsSearchService = filmsSearchService;
         }
 
+        public async Task<FilmModel[]> GetWathedFilms()
+        {
+            return await _context.UserFilms.AsNoTracking().Where(x => x.UserId == SearchUserInContext().Id).Where(x => x.Watched == true).Select(x => x.Film).ToArrayAsync();
+        }
+
+        public async Task<FilmModel[]> GetActiveFilms()
+        {
+            return await _context.UserFilms.AsNoTracking().Where(x => x.UserId == SearchUserInContext().Id).Where(x => x.Watched == false).Include(x => x.Film).Select(x => x.Film).ToArrayAsync();
+        }
+
         public async Task RateFilm(FilmModel film, byte rating)
         {
 
             var userId = GetUserId();
             var filmForRate = _context.UserFilms.Where(x => x.UserId == SearchUserInContext().Id).Include(x => x.Film).FirstOrDefault(x => x.Film.FilmIdApi == film.FilmIdApi);
-            if (filmForRate == null && filmForRate == default)
+
+            if (filmForRate == null)
             {
-                await CreateUserFilmData(film, userId);
+                await _context.UserFilms.AddRangeAsync(new UserFilmData
+                {
+                    Film = new FilmModel
+                    {
+                        Description = film.Description,
+                        KinopoiskRating = film.KinopoiskRating,
+                        FilmIdApi = film.FilmIdApi,
+                        NameEn = film.NameEn,
+                        NameRu = film.NameRu,
+                        PosterUrlPreview = film.PosterUrlPreview,
+                        WebUrl = film.WebUrl,
+                        Year = film.Year
+                    },
+                    FilmId = film.Id,
+                    UserId = userId,
+                    Watched = true, 
+                    Rating = rating
+                });
             }
-            filmForRate.Rating = rating;
+            else
+            {
+                var userFilmToUpdate = _context.UserFilms.FirstOrDefault(x => x.UserId == SearchUserInContext().Id);
+                userFilmToUpdate.Rating = rating;
+                userFilmToUpdate.Watched = true;
+                _context.UserFilms.Update(userFilmToUpdate);
+            }
 
             await _context.SaveChangesAsync();
         }
@@ -72,13 +106,7 @@ namespace DatabaseAccess.Services
         public async Task MakeFilmActive(FilmModel film)
         {
             var userId = GetUserId();
-            await CreateUserFilmData(film, userId);
 
-            await _context.SaveChangesAsync();
-        }
-
-        private async Task CreateUserFilmData(FilmModel film, string userId)
-        {
             await _context.UserFilms.AddRangeAsync(new UserFilmData
             {
                 Film = new FilmModel
@@ -96,6 +124,8 @@ namespace DatabaseAccess.Services
                 UserId = userId,
                 Watched = false
             });
+
+            await _context.SaveChangesAsync();
         }
 
         private string GetUserId()

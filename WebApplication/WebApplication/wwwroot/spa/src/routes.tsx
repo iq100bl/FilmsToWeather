@@ -1,9 +1,9 @@
-import MainPage from "./components/general/mainPage";
-import Layout from "./components/Other/layout";
-import Profile from "./components/Other/profile";
+import MainPage from "./components/other/mainPage";
+import Layout from "./components/other/layout";
+import Profile from "./components/entities/profile";
 
-import RecomendedFilm from "./components/Other/recomendedFilms";
-import TopFilms from "./components/Other/topFilms";
+import RecomendedFilm from "./components/other/recomendedFilms";
+import TopFilms from "./components/other/topFilms";
 
 
 

@@ -23,6 +23,7 @@ const ActiveFilm = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, descrip
             setError(e.message);
         })
     }
+
     return (
         <>
             <MDBCard style={{ maxWidth: '1080px' }}>
@@ -41,7 +42,6 @@ const ActiveFilm = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, descrip
                                 <small className='text-muted'>Рейтинг на кинопоиске : {kinopoiskRating}</small>
                             </MDBCardText>
                             <Row>
-                                <Col><Button variant="primary">Удалить из списка</Button></Col>
                                 <Col><DropdownButton id="dropdown-basic-button" title="Посмотели? Оставьте вашу оценку">
                                     <Dropdown.Item onClick={() => handleRatingChange(1)}>1</Dropdown.Item>
                                     <Dropdown.Item onClick={() => handleRatingChange(2)}>2</Dropdown.Item>

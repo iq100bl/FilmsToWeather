@@ -23,11 +23,11 @@ export const giveChosenFilm = (filmIdApi: number,
 }
 
 export const fetchActiveFilmsOfUser = () => {
-    return httpGet<FilmDTO[]>("films/ActiveFilms");
+    return httpGet<FilmDTO[]>("films/activeFilms");
 }
 
 export const fetchWatchedFilmsOfUser = () => {
-    return httpGet<FilmDTO[]>("films/WatchedFilms");
+    return httpGet<FilmDTO[]>("films/watchedFilms");
 }
 
 export const giveRatingFilmFromUser = (filmIdApi: number,

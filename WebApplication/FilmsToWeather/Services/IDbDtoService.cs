@@ -17,5 +17,9 @@ namespace FilmsToWeather.Services
         Task MakeFilmActive(FilmModel film);
 
         Task RateFilm(FilmModel film, byte rating);
+
+        Task<FilmModel[]> GetActiveFilms();
+
+        Task<FilmModel[]> GetWathedFilms();
     }
 }

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Alert, Spinner, Col } from "react-bootstrap";
 import { fetchRecomendedFilms } from "../../services/filmService";
 import FilmDTO from "../../types/films";
-import Film from "../general/film";
+import Film from "../entities/film";
 
 
 const RecomendedFilm = () => {

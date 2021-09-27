@@ -1,5 +1,4 @@
 import { MDBCard, MDBRow, MDBCol, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText } from "mdb-react-ui-kit";
-import { DropdownButton, Dropdown, Button, Col, Row } from "react-bootstrap";
 import FilmDTO from "../../types/films";
 
 interface Props extends FilmDTO {
