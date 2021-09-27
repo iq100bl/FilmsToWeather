@@ -41,20 +41,18 @@ const ActiveFilm = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, descrip
                             <MDBCardText>
                                 <small className='text-muted'>Рейтинг на кинопоиске : {kinopoiskRating}</small>
                             </MDBCardText>
-                            <Row>
-                                <Col><DropdownButton id="dropdown-basic-button" title="Посмотели? Оставьте вашу оценку">
-                                    <Dropdown.Item onClick={() => handleRatingChange(1)}>1</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleRatingChange(2)}>2</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleRatingChange(3)}>3</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleRatingChange(4)}>4</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleRatingChange(5)}>5</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleRatingChange(6)}>6</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleRatingChange(7)}>7</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleRatingChange(8)}>8</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleRatingChange(9)}>9</Dropdown.Item>
-                                    <Dropdown.Item onClick={() => handleRatingChange(10)}>10</Dropdown.Item>
-                                </DropdownButton></Col>
-                            </Row>
+                            <DropdownButton size="sm" align="start" id="dropdown-basic-button" title="Посмотели? Оставьте вашу оценку">
+                                <Dropdown.Item onClick={() => handleRatingChange(1)}>1</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(2)}>2</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(3)}>3</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(4)}>4</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(5)}>5</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(6)}>6</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(7)}>7</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(8)}>8</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(9)}>9</Dropdown.Item>
+                                <Dropdown.Item onClick={() => handleRatingChange(10)}>10</Dropdown.Item>
+                            </DropdownButton>
                         </MDBCardBody>
                     </MDBCol>
                 </MDBRow>

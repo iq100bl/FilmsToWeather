@@ -3,8 +3,16 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Ну привет</h1>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a class="btn btn-primary" href="/spa" role="button">Получить фильм</a> 
+    }
+    else
+    {
+        <p>Вы кто такой? Я вас не знаю. Идите</p>
+        <nav style="height:100px" class="nav-item"><a asp-controller="UserAccount" asp-action="Login" class="btn btn-primary">Регистрироваться</a></nav>
+        <nav style="height:100px" class="nav-item"><a asp-controller="UserAccount" asp-action="Register" class="btn btn-primary">Входить в учётную запись</a></nav>
+    }
 </div>
-<a class="btn btn-primary" href="/spa" role="button">Получить фильм</a>
-<button type="button" class="btn btn-secondary btn-lg">Получить дополнительные возможности</button>

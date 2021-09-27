@@ -7,7 +7,6 @@ const MainPage = () => {
         <>
             <Container>
                 <Row>
-                    <Col>1 of 3</Col>
                     <Col>
                         <FastButton />
                     </Col>
