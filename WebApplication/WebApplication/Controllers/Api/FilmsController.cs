@@ -49,36 +49,42 @@ namespace WebApplication.Controllers.Api
         [Route("ratingFromUser")]
         public async Task RateFilm(RateFilmDto rateFilmDto)
         {
-            await _dtoService.RateFilm(MappingToFilmModel(rateFilmDto.Film), rateFilmDto.Rating);
+            var film = new FilmModel
+            {
+                FilmIdApi = rateFilmDto.FilmIdApi,
+                NameRu = rateFilmDto.NameRu,
+                PosterUrlPreview = rateFilmDto.PosterUrlPreview,
+                KinopoiskRating = rateFilmDto.KinopoiskRating,
+                WebUrl = rateFilmDto.WebUrl,
+                Description = rateFilmDto.Description,
+                Year = rateFilmDto.Year,
+                NameEn = rateFilmDto.NameEn
+            };
+
+            await _dtoService.RateFilm(film, rateFilmDto.Rating);
         }
 
         [HttpPost]
         [Route("selectFilm")]
         public async Task MakeFilmActive(FilmDto film)
         {
-            await _dtoService.MakeFilmActive(MappingToFilmModel(film));
+            await _dtoService.MakeFilmActive(MappingFilmDtoToFilmModel(film));
         }
 
-        [HttpPost]
-        [Route("ActiveFilms")]
+        [HttpGet]
+        [Route("activeFilms")]
         public async Task<FilmModelView[]> GetActiveFilmsForUser()
         {
-            var activeUserId = _userManager.GetUserId(User);
-            var city = _context.Cities.AsNoTracking().Where(x => x.Id == _context.Users.Where(x => x.Id == activeUserId).Select(x => x.CityId).FirstOrDefault()).FirstOrDefault();
-            var recomendedFilms = await _filmsSearchService.GetRecomendedFilm(city);
-            var viewModels = recomendedFilms.Except<FilmModel>(_context.UserFilms.AsNoTracking().Where(x => x.UserId == activeUserId).Select(x => x.Film)).Select(x => new FilmModelView
-            {
-                FilmIdApi = x.FilmIdApi,
-                NameRu = x.NameRu,
-                PosterUrlPreview = x.PosterUrlPreview,
-                KinopoiskRating = x.KinopoiskRating,
-                WebUrl = x.WebUrl,
-                Description = x.Description,
-                Year = x.Year,
-                NameEn = x.NameEn
-            }).Take(13).ToArray();
+            var activeFilms = await _dtoService.GetActiveFilms();
+            return MappingFilmModelToFilmModelView(activeFilms);
+        }
 
-            return viewModels;
+        [HttpGet]
+        [Route("watchedFilms")]
+        public async Task<FilmModelView[]> GetWatchedFilms()
+        {
+            var wathedFilms = await _dtoService.GetWathedFilms();
+            return MappingFilmModelToFilmModelView(wathedFilms);
         }
 
         [HttpGet]
@@ -87,32 +93,7 @@ namespace WebApplication.Controllers.Api
         {
             var recomendedFilms = await _dtoService.GetRecomendedFilmsAfterViewFilter();
 
-            return recomendedFilms.Select(x => new FilmModelView
-            {
-                FilmIdApi = x.FilmIdApi,
-                NameRu = x.NameRu,
-                PosterUrlPreview = x.PosterUrlPreview,
-                KinopoiskRating = x.KinopoiskRating,
-                WebUrl = x.WebUrl,
-                Description = x.Description,
-                NameEn = x.NameEn,
-                Year = x.Year
-            }).ToArray();
-
-            //var activeUserId = _userManager.GetUserId(User);
-            //var city = _context.Cities.AsNoTracking().Where(x => x.Id == _context.Users.Where(x => x.Id == activeUserId).Select(x => x.CityId).FirstOrDefault()).FirstOrDefault();
-            //var recomendedFilms = await _filmsSearchService.GetRecomendedFilm(city);
-            //var viewModels = recomendedFilms.Except<FilmModel>(_context.UserFilms.AsNoTracking().Where(x => x.UserId == activeUserId).Select(x => x.Films.FirstOrDefault())).Select(x => new FilmModelView
-            //{
-            //    FilmId = x.FilmId,
-            //    NameRu = x.NameRu,
-            //    PosterUrlPreview = x.PosterUrlPreview,
-            //    KinopoiskRating = x.KinopoiskRating,
-            //    WebUrl = x.WebUrl,
-            //    Description = x.Description
-            //}).Take(13).ToArray();
-
-            //return viewModels;
+            return MappingFilmModelToFilmModelView(recomendedFilms);
         }
 
         [HttpPost]
@@ -120,7 +101,12 @@ namespace WebApplication.Controllers.Api
         public async Task<FilmModelView[]> GetTopFilms(PageDto page)
         {
             var topFilms = await _dtoService.GetTopFilms(page);
-            var x = topFilms.Select(x => new FilmModelView
+            return MappingFilmModelToFilmModelView(topFilms);
+        }
+
+        private static FilmModelView[] MappingFilmModelToFilmModelView(FilmModel[] films)
+        {
+            return films.Select(x => new FilmModelView
             {
                 FilmIdApi = x.FilmIdApi,
                 NameRu = x.NameRu,
@@ -131,43 +117,9 @@ namespace WebApplication.Controllers.Api
                 Year = x.Year,
                 NameEn = x.NameEn
             }).ToArray();
-            return x;
-
-            //var topFilms = await _kinopoiskApi.GetTopFilms(page.Page);
-            //var viewModels = topFilms.Select(x => new FilmModelView
-            //{
-            //    FilmId = x.FilmId,
-            //    NameRu = x.NameRu,
-            //    PosterUrlPreview = x.PosterUrlPreview,
-            //    KinopoiskRating = x.KinopoiskRating,
-            //    WebUrl = x.WebUrl,
-            //    Description = x.Description
-            //}).ToArray();
-
-            //return viewModels;
         }
 
-        [HttpPost]
-        [Route("WatchedFilms")]
-        public async Task<FilmModelView[]> GetWatchedFilms(PageDto page)
-        {
-            var topFilms = await _kinopoiskApi.GetTopFilms(page.Page);
-            var viewModels = topFilms.Select(x => new FilmModelView
-            {
-                FilmIdApi = x.FilmIdApi,
-                NameRu = x.NameRu,
-                PosterUrlPreview = x.PosterUrlPreview,
-                KinopoiskRating = x.KinopoiskRating,
-                WebUrl = x.WebUrl,
-                Description = x.Description,
-                NameEn = x.NameEn,
-                Year = x.Year
-            }).ToArray();
-
-            return viewModels;
-        }
-
-        private static FilmModel MappingToFilmModel(FilmDto film)
+        private static FilmModel MappingFilmDtoToFilmModel(FilmDto film)
         {
             return new FilmModel
             {
