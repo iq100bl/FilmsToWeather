@@ -11,6 +11,7 @@ namespace DatabaseAccess.Entities
 
         public CityModel City { get; set; }
 
+        //                               Films/UserFilms
         public ICollection<UserFilmData> UserFilmData { get; set; }
     }
 }

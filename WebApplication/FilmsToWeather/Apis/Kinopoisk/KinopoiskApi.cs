@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Flurl;
@@ -12,7 +13,10 @@ namespace FilmsToWeather.Apis.Kinopoisk
 {
     public class KinopoiskApi : IKinopoiskApi
     {
-        private string _moviesApiKey = null;
+        private string _moviesApiKey;
+        // на будущее - лучше выносить все такие параметры тоже в сеттинги
+        // апишки имеют свойство меняться со временем
+        // и чтобы не изменять код, а только обновить сетиги - из лучше держать там все
         private const string FilmsBaseApi = "https://kinopoiskapiunofficial.tech";
         private readonly string _filmsTop250Api = $"{FilmsBaseApi}/api/v2.2/films/top";
         private readonly string _filtersApi = $"{FilmsBaseApi}/api/v2.1/films/filters";
@@ -26,7 +30,7 @@ namespace FilmsToWeather.Apis.Kinopoisk
 
         public async Task<FilmModel[]> GetTopFilms(int page)
         {
-            var rankedFilms = _filmsTop250Api
+            var query = _filmsTop250Api
                 .SetQueryParams(new
                 {
                     type = "TOP_250_BEST_FILMS",
@@ -35,29 +39,34 @@ namespace FilmsToWeather.Apis.Kinopoisk
                 .WithHeader("X-API-KEY", _moviesApiKey)
                 .WithHeader("accept", "application/json");
 
-            var topFilms = await CallApi(() => rankedFilms.GetJsonAsync<FilmsResponse>());
+            var topFilms = await CallApi(() => query.GetJsonAsync<FilmsResponse>());
             return await ConvertToFilmModel(topFilms);
         }
 
         public async Task<FiltersModelResponse> GetFilters()
         {
-            var filters = _filtersApi.WithHeader("X-API-KEY", _moviesApiKey).WithHeader("accept", "application/json");
-            return await CallApi(() => filters.GetJsonAsync<FiltersModelResponse>());
+            var query = _filtersApi
+                .WithHeader("X-API-KEY", _moviesApiKey)
+                .WithHeader("accept", "application/json");
+
+            return await CallApi(() => query.GetJsonAsync<FiltersModelResponse>());
         }
 
+        // на будущее - заведи класс FilmsSearchParamters где можно настроить каждое из доступных поисковых опций
+        // потом можно на клиенте запилить классный поиск по всем параметрам
         public async Task<FilmModel[]> SearchFilmByFilter(int[] genres)
         {
             var films = _searchByFiltersApi.SetQueryParams(new
-            {
-                genre = genres,
-                order = "RATING",
-                type = "FILM",
-                ratingFrom = "8",
-                ratingTo = "10",
-                yearFrom = "1985",
-                yearTo = "2021",
-                page = "1"
-            })
+                {
+                    genre = genres,
+                    order = "RATING",
+                    type = "FILM",
+                    ratingFrom = "8",
+                    ratingTo = "10",
+                    yearFrom = "1985",
+                    yearTo = "2021",
+                    page = "1"
+                })
                 .WithHeader("X-API-KEY", _moviesApiKey)
                 .WithHeader("accept", "application/json");
 
@@ -78,13 +87,15 @@ namespace FilmsToWeather.Apis.Kinopoisk
 
         private async Task<FilmModel[]> ConvertToFilmModel(FilmsResponse filmsResponse)
         {
-            FilmModel[] filmModels = new FilmModel[filmsResponse.FilmTopResponseFilms.Length];
-            var i = 0;
+            // создай лист и выбрасывай индекс
+            var models = new List<FilmModel>(filmsResponse.FilmTopResponseFilms.Length);
+            // FilmModel[] filmModels = new FilmModel[filmsResponse.FilmTopResponseFilms.Length];
+            // var i = 0;
 
             foreach (var film in filmsResponse.FilmTopResponseFilms)
             {
                 var info = await GetFilmInfo(film.FilmIdApi.ToString());
-                FilmModel filmModel = new()
+                models.Add(new FilmModel
                 { 
                     FilmIdApi = film.FilmIdApi,
                     NameEn = film.NameEn,
@@ -94,12 +105,11 @@ namespace FilmsToWeather.Apis.Kinopoisk
                     Year = film.Year,
                     WebUrl = info.FilmTopResponseFilms.WebUrl,
                     Description = info.FilmTopResponseFilms.Description
-                };
-
-                filmModels[i] = filmModel;
-                i += 1;
+                });
             }
-            return filmModels;
+
+            // можно еще возращать не массив а интерфейс типа IList/IReadOnlyList и не конвертить в массив
+            return models.ToArray();
         }
 
         private static async Task<T> CallApi<T>(Func<Task<T>> func)

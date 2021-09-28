@@ -7,6 +7,7 @@ namespace FilmsToWeather.Apis.YandexWeather
 {
     public interface IWeatherApi
     {
+        // имена без _
         Task<WeatherCityInfo> GetWeather(string _lat, string _lon);
     }
 }

@@ -9,8 +9,10 @@ using FilmsToWeather.Apis.Kinopoisk.Entities;
 
 namespace FilmsToWeather.Common.Caching
 {
+    // имя             Caсhe
     public class FilterCasheService : IFilterCasheService
     {
+        // статик - с большой
         private static readonly Dictionary<string, int> countries = new();
         private static readonly Dictionary<string, int> genres = new();
 
