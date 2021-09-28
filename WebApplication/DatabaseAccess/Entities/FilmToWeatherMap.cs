@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseAccess
 {
+    // как-то здесь ничего не используется
     public class FilmToWeatherMap
     {
         public Guid Id { get; set; }

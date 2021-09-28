@@ -13,12 +13,18 @@ namespace DatabaseAccess.Entities
 
         public string UrlLocalYandex { get; set; }
 
+        // тут тоже не понятно что за кондишен
+        /// <summary>
+        /// можно такие комментарии добавлять - описать что храним в проперте
+        /// </summary>
         public string Condition { get; set; }
 
         public string Season { get; set; }
 
+        // не понятно что за имя и что там лежит
         public string Daytime { get; set; }
 
+        //              UpdatedAt
         public DateTime UpdateAt { get; set; }
 
         public string Latitude { get; set; }

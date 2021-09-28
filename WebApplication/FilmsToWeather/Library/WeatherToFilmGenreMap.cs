@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace FilmsToWeather.Library
 {
+    // хотели это бд перенести
+    // давай через дб инициализатор сделаем
     public class WeatherToFilmGenreMap
     {
         public readonly Dictionary<string, string> Translator = new()

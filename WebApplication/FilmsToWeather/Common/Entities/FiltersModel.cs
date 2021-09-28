@@ -8,6 +8,7 @@ using FilmsToWeather.Apis.Kinopoisk.Entities;
 
 namespace FilmsToWeather.Common.Entities
 {
+    // не ипользуется
     public class FiltersModel
     {
         public CountryResponse[] Countries { get; set; }

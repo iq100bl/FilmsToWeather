@@ -19,13 +19,16 @@ namespace DatabaseAccess.Services
 {
     public class IDbDtoService : FilmsToWeather.Services.IDbDtoService
     {
+        // не используется
         private readonly IFilterCasheService _filterCasheService;
+        // не используется
         private readonly IWeatherApi _weatherApi;
         private readonly IKinopoiskApi _kinopoiskApi;
         private readonly IFilmsSearchService _filmsSearchService;
         private readonly ApplicationContext _context;
         private readonly IHttpContextAccessor _httpContext;
 
+        // с новой строки каждый параметр
         public IDbDtoService(ApplicationContext context, IHttpContextAccessor httpContext, 
             IFilterCasheService filterCasheService, IWeatherApi weatherApi, 
             IKinopoiskApi kinopoiskApi, IFilmsSearchService filmsSearchService)
@@ -40,7 +43,15 @@ namespace DatabaseAccess.Services
 
         public async Task<FilmModel[]> GetWathedFilms()
         {
-            return await _context.UserFilms.AsNoTracking().Where(x => x.UserId == SearchUserInContext().Id).Where(x => x.Watched == true).Select(x => x.Film).ToArrayAsync();
+            // очень длинно здесь и ниже
+            return await _context.UserFilms
+                .AsNoTracking()
+                // ломаем весь перфоманс - получить айдишку нужно выше и не вычислять ее в методе
+                // так не работает перевод запроса на sql
+                .Where(x => x.UserId == SearchUserInContext().Id)
+                .Where(x => x.Watched == true) // IsWatched лучше
+                .Select(x => x.Film)
+                .ToArrayAsync();
         }
 
         public async Task<FilmModel[]> GetActiveFilms()
@@ -77,7 +88,16 @@ namespace DatabaseAccess.Services
             }
             else
             {
+
+                // 1 берем юзер айди
+                // 2 идем в базу
+                // 3 ищем первого пользователя
+                // 4 безем его йадишку
+                // вопрос - можно ли скипануть пункты 2 - 4
                 var userFilmToUpdate = _context.UserFilms.FirstOrDefault(x => x.UserId == SearchUserInContext().Id);
+
+                // не используй FirstOrDefault если не проверяешь на null потом
+                // используй всегда Single по умолчанию
                 userFilmToUpdate.Rating = rating;
                 userFilmToUpdate.Watched = true;
                 _context.UserFilms.Update(userFilmToUpdate);
@@ -95,12 +115,21 @@ namespace DatabaseAccess.Services
 
         public async Task<FilmModel[]> GetRecomendedFilmsAfterViewFilter()
         {
+            // SearchUserInContext возвращает null
             var city = _context.Cities.AsNoTracking().FirstOrDefault(x => x.Id == SearchUserInContext().CityId);
 
-            var recomendedFilms = await _filmsSearchService.GetRecomendedFilm(city);
+            FilmModel[] recomendedFilms = await _filmsSearchService.GetRecomendedFilm(city);
 
-            return recomendedFilms.Except<FilmModel>(_context.UserFilms.AsNoTracking().Where(x => x.UserId == GetUserId()).Select(x => x.Film)).ToArray();
+            // плохо читается
+            // в запросе опять вызовы метода - выше писал - так нельзя
+            // давай просто фильтранем фильмы по айдишкам а не по всему объекту - уберем какраз иквалс и хэш код
+            var userId = GetUserId();
+            var userFilmIds = _context.UserFilms
+                .AsNoTracking()
+                .Where(x => x.UserId == userId)
+                .Select(x => x.Film.FilmIdApi);
 
+            return recomendedFilms.Where(film => !userFilmIds.Contains(film.FilmIdApi)).ToArray();
         }
 
         public async Task MakeFilmActive(FilmModel film)
@@ -109,17 +138,18 @@ namespace DatabaseAccess.Services
 
             await _context.UserFilms.AddRangeAsync(new UserFilmData
             {
-                Film = new FilmModel
-                {
-                    Description = film.Description,
-                    KinopoiskRating = film.KinopoiskRating,
-                    FilmIdApi = film.FilmIdApi,
-                    NameEn = film.NameEn,
-                    NameRu = film.NameRu,
-                    PosterUrlPreview = film.PosterUrlPreview,
-                    WebUrl = film.WebUrl,
-                    Year = film.Year
-                },
+                // проверь - я думаю это все не нужно.
+                // Film = new FilmModel
+                // {
+                //     Description = film.Description,
+                //     KinopoiskRating = film.KinopoiskRating,
+                //     FilmIdApi = film.FilmIdApi,
+                //     NameEn = film.NameEn,
+                //     NameRu = film.NameRu,
+                //     PosterUrlPreview = film.PosterUrlPreview,
+                //     WebUrl = film.WebUrl,
+                //     Year = film.Year
+                // },
                 FilmId = film.Id,
                 UserId = userId,
                 Watched = false

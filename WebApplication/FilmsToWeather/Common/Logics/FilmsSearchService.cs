@@ -24,10 +24,14 @@ namespace FilmsToWeather.Common.Logics
         private readonly IWeatherApi _weatherApi;
         private static IFilterCasheService _filterCasheService;
         private readonly ApplicationContext _context;
+        // не используется
         private readonly IHttpContextAccessor _httpContextAccsessor;
-        private static readonly WeatherToFilmGenreMap _weatherToFilmGenreMap = new();
-        private const string typeFilterGenres = "genres";
 
+        // статик - с большой
+        private static readonly WeatherToFilmGenreMap _weatherToFilmGenreMap = new();
+        private const string typeFilterGenres = "genres"; // это удалим
+
+        // каждый параметр с новой строки
         public FilmsSearchService(IKinopoiskApi kinopoiskApi, IWeatherApi weatherApi,
             IFilterCasheService filterCasheService, ApplicationContext context)
         {
@@ -37,10 +41,15 @@ namespace FilmsToWeather.Common.Logics
             _context = context;
         }
 
+        //                                    mm
         public async Task<FilmModel[]> GetRecomendedFilm(CityModel city)
         {
+            // давай логику по получению погоды - в отдельный метод
             WeatherCityInfo weather;
 
+            // здесь явно лишний селект, зачем он?
+            // для проверки есть ли хоть одна запись - используй .Any()
+            // _context.WeatherCityInfos.Any(x => x.CityId == city.Id)
             if (_context.WeatherCityInfos.Where(x => x.CityId == city.Id).Select(x => x.UpdateAt.Day).FirstOrDefault() == default)
             {
                 weather = await _weatherApi.GetWeather(city.Latitude, city.Longitude);
@@ -58,6 +67,9 @@ namespace FilmsToWeather.Common.Logics
                 await _context.SaveChangesAsync();
             }
 
+            // забыл по городу отфильтровать
+            // чтобы не делать 2 запроса - сделай сначала один - через single-or-default
+            // и работай с тем что придет
             else if (_context.WeatherCityInfos.Select(x => x.UpdateAt.Day).FirstOrDefault() != DateTime.UtcNow.Day)
             {
                 weather = await _weatherApi.GetWeather(city.Latitude, city.Longitude);
@@ -67,6 +79,8 @@ namespace FilmsToWeather.Common.Logics
 
             else
             {
+                // это странная ветка не понимаю зачем
+                // мы ищем погоду в городе - она либо есть, либо нет, в чем 3ий кейс здесь?
                 weather = _context.WeatherCityInfos.FirstOrDefault(x => x.CityId == city.Id);
             }
 
@@ -74,6 +88,8 @@ namespace FilmsToWeather.Common.Logics
             return await _kinopoiskApi.SearchFilmByFilter(genres);
         }
 
+        // пока мы не подключили искусственный интелект - давай просто передадим сода объект weather
+        // и возьмем с него нужные проперти для транслятора
         private static async Task<int[]> GetFilter(string paramOne, string paramTwo, string paramThree)
         {
             var fiters = await _filterCasheService.GetFilterDictionary(typeFilterGenres, paramOne, paramTwo, paramThree);

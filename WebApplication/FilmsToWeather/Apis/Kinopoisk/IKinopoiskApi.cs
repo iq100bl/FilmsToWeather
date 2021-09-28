@@ -12,8 +12,11 @@ namespace FilmsToWeather.Apis.Kinopoisk
 
         Task<FiltersModelResponse> GetFilters();
 
+        // в данный момент имя не совпадает с параметорм,
+        // логичнее было бы SearchFilmByGenres(params int[] genreids)
         Task<FilmModel[]> SearchFilmByFilter(int[] genreIds);
 
+        // не используется
         Task<FilmInfoResponse> GetFilmInfo(string filmId);
     }
 }

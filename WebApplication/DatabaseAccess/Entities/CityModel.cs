@@ -24,8 +24,7 @@ namespace DatabaseAccess.Entities
 
         public Guid? WeatherCitiesInfoId { get; set; }
 
+        //                     WeatherCityInfo
         public WeatherCityInfo WeatherCitiesInfo { get; set; }
-
-
     }
 }
