@@ -21,7 +21,7 @@ const ProfileWathedFilms = () => {
         <>
             <div>
                 {error && <Alert variant='danger'>Falled to fetch</Alert>}
-                {!error && WatchedFilms.length === 0 && <Spinner animation="border" variant="primary" />}
+                {!error && WatchedFilms.length === 0 && <Alert variant='danger'>Нет Просмотренных фильмов</Alert>}
                 {WatchedFilms.length > 0 && WatchedFilms.map((film) =>
                     <WatchedFilm posterUrlPreview={film.posterUrlPreview}
                         webUrl={film.webUrl} nameRu={film.nameRu}

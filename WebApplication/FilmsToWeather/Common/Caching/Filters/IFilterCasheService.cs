@@ -5,6 +5,6 @@ namespace FilmsToWeather.Common.Caching
 {
     public interface IFilterCasheService
     {
-        Task<Dictionary<string, int>> GetFilterDictionary(string type, string paramOne, string paramTwo, string paramThree);
+        Task<Dictionary<string, int>> GetFilterDictionary(string paramOne, string paramTwo, string paramThree);
     }
 }

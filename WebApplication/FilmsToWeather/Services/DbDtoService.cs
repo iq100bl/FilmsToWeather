@@ -19,40 +19,52 @@ namespace DatabaseAccess.Services
 {
     public class IDbDtoService : FilmsToWeather.Services.IDbDtoService
     {
-        private readonly IFilterCasheService _filterCasheService;
-        private readonly IWeatherApi _weatherApi;
         private readonly IKinopoiskApi _kinopoiskApi;
         private readonly IFilmsSearchService _filmsSearchService;
         private readonly ApplicationContext _context;
         private readonly IHttpContextAccessor _httpContext;
 
-        public IDbDtoService(ApplicationContext context, IHttpContextAccessor httpContext, 
-            IFilterCasheService filterCasheService, IWeatherApi weatherApi, 
-            IKinopoiskApi kinopoiskApi, IFilmsSearchService filmsSearchService)
+        public IDbDtoService(ApplicationContext context,
+            IHttpContextAccessor httpContext, 
+            IKinopoiskApi kinopoiskApi,
+            IFilmsSearchService filmsSearchService)
         {
             _context = context;
             _httpContext = httpContext;
-            _filterCasheService = filterCasheService;
-            _weatherApi = weatherApi;
             _kinopoiskApi = kinopoiskApi;
             _filmsSearchService = filmsSearchService;
         }
 
         public async Task<FilmModel[]> GetWathedFilms()
         {
-            return await _context.UserFilms.AsNoTracking().Where(x => x.UserId == SearchUserInContext().Id).Where(x => x.Watched == true).Select(x => x.Film).ToArrayAsync();
+            var user = SearchUserInContext();
+
+            return await _context.UserFilms
+                .AsNoTracking()
+                .Where(x => x.UserId == user.Id)
+                .Where(x => x.Watched == true)
+                .Select(x => x.Film)
+                .ToArrayAsync();
         }
 
         public async Task<FilmModel[]> GetActiveFilms()
         {
-            return await _context.UserFilms.AsNoTracking().Where(x => x.UserId == SearchUserInContext().Id).Where(x => x.Watched == false).Include(x => x.Film).Select(x => x.Film).ToArrayAsync();
+            var user = SearchUserInContext();
+
+            return await _context.UserFilms
+                .AsNoTracking()
+                .Where(x => x.UserId == user.Id)
+                .Where(x => x.Watched == false).Include(x => x.Film)
+                .Select(x => x.Film).ToArrayAsync();
         }
 
         public async Task RateFilm(FilmModel film, byte rating)
         {
-
-            var userId = GetUserId();
-            var filmForRate = _context.UserFilms.Where(x => x.UserId == SearchUserInContext().Id).Include(x => x.Film).FirstOrDefault(x => x.Film.FilmIdApi == film.FilmIdApi);
+            var user = SearchUserInContext();
+            var filmForRate = _context.UserFilms.
+                Where(x => x.UserId == user.Id)
+                .Include(x => x.Film)
+                .FirstOrDefault(x => x.Film.FilmIdApi == film.FilmIdApi);
 
             if (filmForRate == null)
             {
@@ -70,14 +82,14 @@ namespace DatabaseAccess.Services
                         Year = film.Year
                     },
                     FilmId = film.Id,
-                    UserId = userId,
+                    UserId = user.Id,
                     Watched = true, 
                     Rating = rating
                 });
             }
             else
             {
-                var userFilmToUpdate = _context.UserFilms.FirstOrDefault(x => x.UserId == SearchUserInContext().Id);
+                var userFilmToUpdate = filmForRate;
                 userFilmToUpdate.Rating = rating;
                 userFilmToUpdate.Watched = true;
                 _context.UserFilms.Update(userFilmToUpdate);
@@ -95,17 +107,24 @@ namespace DatabaseAccess.Services
 
         public async Task<FilmModel[]> GetRecomendedFilmsAfterViewFilter()
         {
-            var city = _context.Cities.AsNoTracking().FirstOrDefault(x => x.Id == SearchUserInContext().CityId);
+            var user = SearchUserInContext();
 
-            var recomendedFilms = await _filmsSearchService.GetRecomendedFilm(city);
+            var city = _context.Cities.AsNoTracking().FirstOrDefault(x => x.Id == user.CityId);
 
-            return recomendedFilms.Except<FilmModel>(_context.UserFilms.AsNoTracking().Where(x => x.UserId == GetUserId()).Select(x => x.Film)).ToArray();
+            FilmModel[] recomendedFilms = await _filmsSearchService.GetRecomendedFilm(city);
+
+            var userFilmIds = _context.UserFilms
+                .AsNoTracking()
+                .Where(x => x.UserId == user.Id)
+                .Select(x => x.Film.FilmIdApi);
+
+            return recomendedFilms.Where(film => !userFilmIds.Contains(film.FilmIdApi)).ToArray();
 
         }
 
         public async Task MakeFilmActive(FilmModel film)
         {
-            var userId = GetUserId();
+            var user = SearchUserInContext();
 
             await _context.UserFilms.AddRangeAsync(new UserFilmData
             {
@@ -121,7 +140,7 @@ namespace DatabaseAccess.Services
                     Year = film.Year
                 },
                 FilmId = film.Id,
-                UserId = userId,
+                UserId = user.Id,
                 Watched = false
             });
 
@@ -140,11 +159,6 @@ namespace DatabaseAccess.Services
             var activeUserId = GetUserId();
 
             return _context.Users.FirstOrDefault(x => x.Id == activeUserId);
-        }
-
-        private void SearchAndDeleteViewedMovies(FilmModel[] films)
-        {
-
         }
     }
 }

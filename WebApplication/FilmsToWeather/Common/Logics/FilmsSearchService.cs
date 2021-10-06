@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FilmsToWeather.Apis.Entities;
 using FilmsToWeather.Apis.YandexWeather;
-using FilmsToWeather.Apis.YandexWeather.Entities;
 using FilmsToWeather.Common.Caching;
-using FilmsToWeather.Common.Entities;
 using FilmsToWeather.Apis.Kinopoisk;
 using FilmsToWeather.Library;
 using DatabaseAccess.Entities;
 using DatabaseAccess;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace FilmsToWeather.Common.Logics
 {
@@ -24,12 +18,12 @@ namespace FilmsToWeather.Common.Logics
         private readonly IWeatherApi _weatherApi;
         private static IFilterCasheService _filterCasheService;
         private readonly ApplicationContext _context;
-        private readonly IHttpContextAccessor _httpContextAccsessor;
         private static readonly WeatherToFilmGenreMap _weatherToFilmGenreMap = new();
-        private const string typeFilterGenres = "genres";
 
-        public FilmsSearchService(IKinopoiskApi kinopoiskApi, IWeatherApi weatherApi,
-            IFilterCasheService filterCasheService, ApplicationContext context)
+        public FilmsSearchService(IKinopoiskApi kinopoiskApi,
+            IWeatherApi weatherApi,
+            IFilterCasheService filterCasheService,
+            ApplicationContext context)
         {
             _kinopoiskApi = kinopoiskApi;
             _weatherApi = weatherApi;
@@ -58,7 +52,7 @@ namespace FilmsToWeather.Common.Logics
                 await _context.SaveChangesAsync();
             }
 
-            else if (_context.WeatherCityInfos.Select(x => x.UpdateAt.Day).FirstOrDefault() != DateTime.UtcNow.Day)
+            else if (_context.WeatherCityInfos.Where(x => x.CityId == city.Id).Select(x => x.UpdateAt.Day).FirstOrDefault() != DateTime.UtcNow.Day)
             {
                 weather = await _weatherApi.GetWeather(city.Latitude, city.Longitude);
                 weather.UpdateAt = DateTime.UtcNow;
@@ -71,12 +65,12 @@ namespace FilmsToWeather.Common.Logics
             }
 
             var genres = await GetFilter(weather.Condition, weather.Season, weather.Daytime);
-            return await _kinopoiskApi.SearchFilmByFilter(genres);
+            return await _kinopoiskApi.SearchFilmByGenres(genres);
         }
 
         private static async Task<int[]> GetFilter(string paramOne, string paramTwo, string paramThree)
         {
-            var fiters = await _filterCasheService.GetFilterDictionary(typeFilterGenres, paramOne, paramTwo, paramThree);
+            var fiters = await _filterCasheService.GetFilterDictionary(paramOne, paramTwo, paramThree);
             var genres = new int[]
             {
                 fiters[_weatherToFilmGenreMap.Translator[paramOne]],

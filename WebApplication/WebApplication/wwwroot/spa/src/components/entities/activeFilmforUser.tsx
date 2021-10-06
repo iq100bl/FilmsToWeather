@@ -14,12 +14,8 @@ const ActiveFilm = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, descrip
 
     const film = ({ nameRu, kinopoiskRating, posterUrlPreview, webUrl, description, filmIdApi, year, nameEn });
 
-    const navigate = useNavigate();
-
     const handleRatingChange = (rating: number) => {
-        giveRatingFilmFromUser(filmIdApi, nameRu, nameEn, year, kinopoiskRating, posterUrlPreview, webUrl, description, rating).then(() => {
-            navigate('/spa/profile');
-        }).catch((e) => {
+        giveRatingFilmFromUser(filmIdApi, nameRu, nameEn, year, kinopoiskRating, posterUrlPreview, webUrl, description, rating).catch((e) => {
             setError(e.message);
         })
     }

@@ -11,25 +11,24 @@ namespace FilmsToWeather.Apis.YandexWeather
     public class WeatherApi : IWeatherApi
     {
         private const string WeathersBaseApi = "https://api.weather.yandex.ru/v2/informers?";
-        public IConfiguration Configuration { get; }
-        private string ApiKeyToWeather = null;
+        private string ApiKeyToWeather;
 
         public WeatherApi(IConfiguration configuration)
         {
             ApiKeyToWeather = configuration["Weather:ServiceApiKey"];
         }
 
-        public async Task<WeatherCityInfo> GetWeather(string _lat, string _lon)
+        public async Task<WeatherCityInfo> GetWeather(string latitude, string longitude)
         {
             var localWeatherUrl = WeathersBaseApi.SetQueryParams(new
             {
-                lat = _lat,
-                lon = _lon
+                lat = latitude,
+                lon = longitude
             })
                 .WithHeader("X-Yandex-API-Key", ApiKeyToWeather);
 
             var weather = await CallApi(() => localWeatherUrl.GetJsonAsync<WeatherResponse>());
-            return new WeatherCityInfo() 
+            return new WeatherCityInfo 
             { 
                 Condition = weather.Fact.Condition, 
                 Daytime = weather.Fact.Daytime, 

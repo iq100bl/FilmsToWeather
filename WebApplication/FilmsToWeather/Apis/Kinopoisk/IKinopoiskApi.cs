@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DatabaseAccess.Entities;
 using FilmsToWeather.Apis.Kinopoisk.Entities;
-using FilmsToWeather.Apis.YandexWeather.Entities;
-using FilmsToWeather.Common.Entities;
 
 namespace FilmsToWeather.Apis.Kinopoisk
 {
@@ -12,8 +10,6 @@ namespace FilmsToWeather.Apis.Kinopoisk
 
         Task<FiltersModelResponse> GetFilters();
 
-        Task<FilmModel[]> SearchFilmByFilter(int[] genreIds);
-
-        Task<FilmInfoResponse> GetFilmInfo(string filmId);
+        Task<FilmModel[]> SearchFilmByGenres(int[] genreIds);
     }
 }

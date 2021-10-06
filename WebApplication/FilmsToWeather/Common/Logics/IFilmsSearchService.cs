@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using DatabaseAccess.Entities;
-using FilmsToWeather.Common.Entities;
 
 namespace FilmsToWeather.Common.Logics
 {

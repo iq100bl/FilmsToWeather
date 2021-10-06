@@ -23,25 +23,10 @@ namespace WebApplication.Controllers.Api
     [Route("api/[controller]")]
     public class FilmsController : ControllerBase
     {
-        private readonly IFilterCasheService _filterCasheService;
-        private readonly IWeatherApi _weatherApi;
-        private readonly IKinopoiskApi _kinopoiskApi;
-        private readonly IFilmsSearchService _filmsSearchService;
-        private readonly UserManager<User> _userManager;
-        private readonly ApplicationContext _context;
         private readonly IDbDtoService _dtoService;
 
-        public FilmsController(IFilterCasheService filterCasheService, IWeatherApi weatherApi,
-                                       IKinopoiskApi kinopoiskApi, IFilmsSearchService filmsSearchService,
-                                       UserManager<User> userManager, ApplicationContext context,
-                                       IDbDtoService dtoService)
+        public FilmsController(IDbDtoService dtoService)
         {
-            _filterCasheService = filterCasheService;
-            _weatherApi = weatherApi;
-            _kinopoiskApi = kinopoiskApi;
-            _filmsSearchService = filmsSearchService;
-            _userManager = userManager;
-            _context = context;
             _dtoService = dtoService;
         }
 

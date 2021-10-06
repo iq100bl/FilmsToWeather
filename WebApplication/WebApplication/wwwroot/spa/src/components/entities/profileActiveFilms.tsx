@@ -14,13 +14,13 @@ const ProfileActiveFilms = () => {
             setError("")
         })
             .catch((e: Error) => setError(e.message));
-    }, []);
+    }, [activeFilms]);
 
     return (
         <>
             <div>
                 {error && <Alert variant='danger'>Falled to fetch</Alert>}
-                {!error && activeFilms.length === 0 && <Spinner animation="border" variant="primary" />}
+                {!error && activeFilms.length === 0 && <Alert variant='danger'>Активных к просмотру фильмов нет</Alert>}
                 <Col>
                     {activeFilms.length > 0 && activeFilms.map((film) =>
                         <ActiveFilm posterUrlPreview={film.posterUrlPreview}

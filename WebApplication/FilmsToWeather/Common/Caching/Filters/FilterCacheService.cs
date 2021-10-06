@@ -11,8 +11,8 @@ namespace FilmsToWeather.Common.Caching
 {
     public class FilterCasheService : IFilterCasheService
     {
-        private static readonly Dictionary<string, int> countries = new();
-        private static readonly Dictionary<string, int> genres = new();
+        private static readonly Dictionary<string, int> Countries = new();
+        private static readonly Dictionary<string, int> Genres = new();
 
         private readonly IKinopoiskApi _kinopoiskApi;
 
@@ -21,37 +21,17 @@ namespace FilmsToWeather.Common.Caching
             _kinopoiskApi = kinopoiskApi;
         }
 
-        public async Task<Dictionary<string, int>> GetFilterDictionary(string type, string paramOne, string paramTwo, string paramThree)
+        public async Task<Dictionary<string, int>> GetFilterDictionary(string paramOne, string paramTwo, string paramThree)
         {
-            if (type == "countries")
-            {
-                if(countries.Count > 0)
+                if (Genres.Count > 0)
                 {
-                    return countries;
+                    return Genres;
                 }
                 else
                 {
                     await CacheFilters();
-                    return countries;
+                    return Genres;
                 }
-            }
-
-            else if (type == "genres")
-            {
-                if (genres.Count > 0)
-                {
-                    return genres;
-                }
-                else
-                {
-                    await CacheFilters();
-                    return genres;
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException("Wrong filter type dictionary");
-            }
         }
 
         private async Task CacheFilters()
@@ -66,12 +46,12 @@ namespace FilmsToWeather.Common.Caching
 
             foreach (var country in filters.Countries)
             {
-                countries.Add(country.Country, country.CountryId);
+                Countries.Add(country.Country, country.CountryId);
             }
 
             foreach (var genre in filters.Genres)
             {
-                genres.Add(genre.Genre, genre.GenreId);
+                Genres.Add(genre.Genre, genre.GenreId);
             }
         }
     }
